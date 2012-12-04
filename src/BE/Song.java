@@ -25,9 +25,33 @@ public class Song {
         this.fileName = fileName;
         this.duration = duration;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public int getArtistId() {
+        return artistId;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
     
     @Override
     public String toString() {
-        return "";
+        return getId() + ". " + getTitle() + " - " + getDuration();
     }
 }
