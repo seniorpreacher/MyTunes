@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package DAL;
 
 import BE.*;
@@ -50,6 +46,12 @@ public class DBManager {
         }
     }
 
+    /**
+     * Makes a query to the database and constructs an ArrayList full of Song 
+     * instances with the information that it got from the database.
+     * 
+     * @return an ArrayList with all the songs from the database.
+     */
     public ArrayList<Song> getAllSongs() {
         ArrayList<Song> sonList = new ArrayList<>();
         try {
@@ -72,7 +74,13 @@ public class DBManager {
         }
         return sonList;
     }
-
+    
+    /**
+     * Makes a query to the database and constructs an ArrayList full of Artists 
+     * instances with the information that it got from the database.
+     * 
+     * @return an ArrayList with all the artists from the database.
+     */
     public ArrayList<Artist> getAllArtists() {
         ArrayList<Artist> artList = new ArrayList<>();
         try {
@@ -92,6 +100,12 @@ public class DBManager {
         return artList;
     }
 
+    /**
+     * Makes a query to the database and constructs an ArrayList full of Category 
+     * instances with the information that it got from the database.
+     * 
+     * @return an ArrayList with all the categories from the database.
+     */    
     public ArrayList<Category> getAllCategories() {
         ArrayList<Category> catList = new ArrayList<>();
         try {
@@ -111,6 +125,12 @@ public class DBManager {
         return catList;
     }
 
+    /**
+     * Makes a query to the database and constructs an ArrayList full of Playlist 
+     * instances with the information that it got from the database.
+     * 
+     * @return an ArrayList with all the playlists from the database.
+     */
     public ArrayList<Playlist> getAllPlaylists() {
         ArrayList<Playlist> plaList = new ArrayList<>();
         try {
@@ -133,6 +153,13 @@ public class DBManager {
         return plaList;
     }
 
+    /**
+     * Takes in a ID number and makes a query to the database. Then constructs a 
+     * Song instance based on the query results.
+     * 
+     * @param iden ID number of the specific Song you're looking for.
+     * @return a specific Song instance.
+     */
     public Song getSongByID(int iden) {
         Song son = null;
         try {
@@ -155,7 +182,14 @@ public class DBManager {
         }
         return son;
     }
-
+    
+    /**
+     * Takes in a ID number and makes a query to the database. Then constructs 
+     * an Artist instance based on the query results.
+     * 
+     * @param iden ID number of the specific Artist you're looking for.
+     * @return a specific Artist instance.
+     */
     public Artist getArtistByID(int iden) {
         Artist art = null;
         try {
@@ -175,6 +209,13 @@ public class DBManager {
         return art;
     }
 
+    /**
+     * Takes in a ID number and makes a query to the database. Then constructs a 
+     * Category instance based on the query results.
+     * 
+     * @param iden ID number of the specific Category you're looking for.
+     * @return a specific Category instance.
+     */    
     public Category getCategoryByID(int iden) {
         Category cat = null;
         try {
@@ -194,6 +235,13 @@ public class DBManager {
         return cat;
     }
 
+    /**
+     * Takes in a ID number and makes a query to the database. Then constructs a 
+     * Playlist instance based on the query results.
+     * 
+     * @param iden ID number of the specific Playlist you're looking for.
+     * @return a specific Playlist instance.
+     */    
     public Playlist getPlaylistByID(int iden) {
         Playlist pla = null;
         try {
@@ -214,5 +262,5 @@ public class DBManager {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return pla;
-    }
+    }  
 }
