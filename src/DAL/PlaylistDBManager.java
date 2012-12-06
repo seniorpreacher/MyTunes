@@ -129,4 +129,24 @@ public class PlaylistDBManager extends DBManager {
 
         conn.close();
     }
+    
+    /**
+     * 
+     * @param songIden 
+     */
+    public void insertSongToPlaylist(int songIden) { }
+    
+    /**
+     * 
+     * @param songIden 
+     */
+    public void removeSongFromPlaylist(int songIden) { }
+    
+    /**
+     * 
+     * @param iden
+     * @param songId
+     * @param newPos 
+     */
+    public void reorderPlaylist(int iden, int songId, int newPos) { }
 }

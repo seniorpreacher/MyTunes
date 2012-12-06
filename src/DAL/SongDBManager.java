@@ -139,16 +139,16 @@ public class SongDBManager extends DBManager {
     }
 
     /**
-     * Updates an already existing song in the database based on the song ID.
-     * If nothing is entered we shouldn't change that column.
-     * 
+     * Updates an already existing song in the database based on the song ID. If
+     * nothing is entered we shouldn't change that column.
+     *
      * @param iden the ID of the song you want to change.
      * @param title the NEW title for the song.
      * @param artistId the NEW artistId which was chosen for the song.
      * @param categoryId the NEW categoryId which was chosen for the song.
      * @param fileName the NEW filename for the song.
      * @param duration the NEW duration for the song.
-     * @throws SQLException 
+     * @throws SQLException
      */
     public void updateSong(int iden, String title, int artistId, int categoryId, String fileName, int duration) throws SQLException {
         Connection conn = dataSource.getConnection();
@@ -163,5 +163,72 @@ public class SongDBManager extends DBManager {
         sonQue.executeQuery();
 
         conn.close();
+    }
+
+    /**
+     * Takes in a parameter which them be looked up and matched with the
+     * exisiting data in ' Song.Title ' and ' Artist.Name '. The results will be
+     * stored in an ArrayList full of Songs.
+     *
+     * @param term The search term which will be used for looking up data.
+     * @return an ArrayList full of songs which match the search.
+     */
+    public ArrayList<Song> searchSongs(String term) throws SQLException {
+        ArrayList<Song> sonList = new ArrayList<>();
+        Connection conn = dataSource.getConnection();
+
+        PreparedStatement sonQue = conn.prepareStatement("SELECT Song.* FROM Song INNER JOIN Artist ON Artist.ID = Song.ArtistID WHERE Song.Title LIKE '%?%' OR Artist.Name LIKE '%?%'");
+        sonQue.setString(1, term);
+        sonQue.setString(2, term);
+        ResultSet sonRes = sonQue.executeQuery();
+
+        while (sonRes.next()) {
+            int id = sonRes.getInt("ID");
+            String title = sonRes.getString("Title");
+            int artistId = sonRes.getInt("ArtistID");
+            int categoryId = sonRes.getInt("CategoryID");
+            String fileName = sonRes.getString("FileName");
+            int duration = sonRes.getInt("Duration");
+            sonList.add(new Song(id, title, artistId, categoryId, fileName, duration));
+        }
+
+        conn.close();
+        return sonList;
+    }
+
+    /**
+     * Lists all the songs from a selected playlist.
+     * 
+     * @param playlistId The ID of the playlist which we want to select.
+     * @return an ArrayList full of songs from that specific playlist
+     */
+    public ArrayList<Song> getSongsFromPlaylist(int playlistId) throws SQLException {
+        ArrayList<Song> sonList = new ArrayList<>();
+        Connection conn = dataSource.getConnection();
+
+        PreparedStatement sonQue = conn.prepareStatement("SELECT Song.* FROM Song INNER JOIN PlaylistSong ON PlaylistSong.SongID = Song.ID WHERE PlaylistSong.PlaylistID = ?");
+        sonQue.setInt(1, playlistId);
+        ResultSet sonRes = sonQue.executeQuery();
+
+        while (sonRes.next()) {
+            int id = sonRes.getInt("ID");
+            String title = sonRes.getString("Title");
+            int artistId = sonRes.getInt("ArtistID");
+            int categoryId = sonRes.getInt("CategoryID");
+            String fileName = sonRes.getString("FileName");
+            int duration = sonRes.getInt("Duration");
+            sonList.add(new Song(id, title, artistId, categoryId, fileName, duration));
+        }
+
+        conn.close();
+        return sonList;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public ArrayList<Song> checkAllSongs() {
+        return null;
     }
 }
