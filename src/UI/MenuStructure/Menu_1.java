@@ -8,17 +8,11 @@ import java.util.concurrent.Callable;
 public class Menu_1 extends Menu {
 
     public Menu_1() throws Exception {
-        super(create());
+        super(create(), "Manage");
     }
 
     private static ArrayList<MenuItem> create() {
         ArrayList<MenuItem> items = new ArrayList<>();
-        items.add(new MenuItem("Back", "b", new Callable<Menu>(){
-            public Menu call() throws Exception{
-                return null;
-            }
-        }));
-        
         items.add(new MenuItem("Song", "s", new Callable<Menu_1_1>(){
             public Menu_1_1 call() throws Exception{
                 return new Menu_1_1();

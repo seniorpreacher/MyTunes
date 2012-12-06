@@ -8,7 +8,7 @@ import java.util.concurrent.Callable;
 public class Menu_main extends Menu{
 
     public Menu_main() throws Exception {
-        super(create());
+        super(create(), null);
     }
 
     private static ArrayList<MenuItem> create() {
