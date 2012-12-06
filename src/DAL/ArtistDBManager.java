@@ -23,6 +23,7 @@ public class ArtistDBManager extends DBManager {
      * instances with the information that it got from the database.
      *
      * @return an ArrayList with all the artists from the database.
+     * @throws SQLException
      */
     public ArrayList<Artist> getAllArtists() throws SQLException {
         ArrayList<Artist> artList = new ArrayList<>();
@@ -36,6 +37,8 @@ public class ArtistDBManager extends DBManager {
             String name = artRes.getString("Name");
             artList.add(new Artist(id, name));
         }
+
+        conn.close();
         return artList;
     }
 
@@ -45,6 +48,7 @@ public class ArtistDBManager extends DBManager {
      *
      * @param iden ID number of the specific Artist you're looking for.
      * @return a specific Artist instance.
+     * @throws SQLException
      */
     public Artist getArtistByID(int iden) throws SQLException {
         Artist art = null;
@@ -58,6 +62,63 @@ public class ArtistDBManager extends DBManager {
         int id = artRes.getInt("ID");
         String name = artRes.getString("Name");
         art = new Artist(id, name);
+
+        conn.close();
         return art;
+    }
+
+    /**
+     * Inserts and stores a new artist into the database table called 'Artist'.
+     *
+     * @param art an artist entity that's passed to the method by the UI.
+     * @throws SQLException
+     */
+    public void insertArtist(Artist art) throws SQLException {
+        Connection conn = dataSource.getConnection();
+
+        PreparedStatement artQue = conn.prepareStatement("INSERT INTO Artist VALUES (?, ?)");
+        artQue.setString(2, art.getName());
+        artQue.executeUpdate();
+
+        conn.close();
+    }
+
+    /**
+     * Gets the last entry from the table 'Artist' and makes an entity out of
+     * it.
+     *
+     * @return a new Artist entity based on the last entry in the table.
+     * @throws SQLException
+     */
+    public Artist getLastArtist() throws SQLException {
+        Artist art = null;
+        Connection conn = dataSource.getConnection();
+
+        PreparedStatement artQue = conn.prepareStatement("SELECT * FROM Artist WHERE ID = MAX(ID)");
+        ResultSet artRes = artQue.executeQuery();
+
+        artRes.next();
+        int id = artRes.getInt("ID");
+        String name = artRes.getString("Name");
+        art = new Artist(id, name);
+
+        conn.close();
+        return art;
+    }
+    
+        /**
+     * Removes the artist we specify by ID from the table called 'Artist'.
+     *
+     * @param iden the ID of the artist we want to remove.
+     * @throws SQLException
+     */    
+    public void removeArtistByID(int iden) throws SQLException {
+        Connection conn = dataSource.getConnection();
+
+        PreparedStatement artQue = conn.prepareStatement("DELETE FROM Artist WHERE ID = ?");
+        artQue.setInt(1, iden);
+        artQue.executeQuery();
+
+        conn.close();
     }
 }

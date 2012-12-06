@@ -25,4 +25,12 @@ public class CategoryManager {
     public Category getCategoryById(int id) throws SQLException {
         return DBM.getCategoryByID(id);
     }
+    
+    public void addCategory(Category cat) throws SQLException {
+        DBM.insertCategory(cat);
+    }
+    
+    public void removeCategory(int id) throws SQLException {
+        DBM.removeCategoryByID(id);
+    }
 }

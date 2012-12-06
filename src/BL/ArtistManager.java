@@ -25,4 +25,12 @@ public class ArtistManager {
     public Artist getArtistById(int id) throws SQLException {
         return DBM.getArtistByID(id);
     }
+    
+    public void addArtist(Artist art) throws SQLException {
+        DBM.insertArtist(art);
+    }
+    
+    public void removeArtist(int id) throws SQLException {
+        DBM.removeArtistByID(id);
+    }
 }

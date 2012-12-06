@@ -25,4 +25,12 @@ public class PlaylistManager {
     public Playlist getPlaylistById(int id) throws SQLException {
         return DBM.getPlaylistByID(id);
     }
+    
+    public void addPlaylist(Playlist pla) throws SQLException {
+        DBM.insertPlaylist(pla);
+    }
+    
+    public void removePlaylist(int id) throws SQLException {
+        DBM.removePlaylistByID(id);
+    }
 }
