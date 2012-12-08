@@ -16,7 +16,6 @@ public class Menu {
         if (parent == null) {
             list.add(new MenuItem("Quit", "q", new Callable<Menu>() {
                 public Menu call() throws Exception {
-                    newLine(10);
                     return null;
                 }
             }));
@@ -45,28 +44,27 @@ public class Menu {
         for (MenuItem i : items) {
             lineLength += lengthOfHeader(i);
         }
-        
-        System.out.print(" ┌┬");
+
+        if (lineLength > 20 && parent != null) {
+            System.out.println(" │");
+            System.out.println(" │");
+            System.out.println(" ├───── ── ── ── ── ─ ─ ─ ─ - - - -");
+            System.out.println(" ├─» " + parent);
+        }
+        System.out.print(" ├┬");
         for (MenuItem i : items) {
-            for(int j = 0; j < lengthOfHeader(i); j++){
+            for (int j = 0; j < lengthOfHeader(i); j++) {
                 System.out.print("─");
             }
             System.out.print("┬");
         }
-        System.out.println("┐");
-        
-        
-        
-        System.out.print(" ││");
-        for (MenuItem i : items) {
-            System.out.print(" " + i.getText() + " (" + i.getTrigger() + ") │");
+        System.out.print("┐\n ││");
+        for (MenuItem item : items) {
+            System.out.print(formatMenuItem(item) + "│");
         }
-        System.out.println("│");
-        
-        
-        System.out.print(" └┴");
+        System.out.print("│\n ├┴");
         for (MenuItem i : items) {
-            for(int j = 0; j < lengthOfHeader(i); j++){
+            for (int j = 0; j < lengthOfHeader(i); j++) {
                 System.out.print("─");
             }
             System.out.print("┴");
@@ -80,48 +78,40 @@ public class Menu {
         boolean isCommandWrong = true;
 
         while (isCommandWrong) {
-            System.out.print(" " + (parent != null && !parent.isEmpty() ? parent : "Command") + " > ");
+            //System.out.print(" │ " + (parent != null && !parent.isEmpty() ? parent : "Command") + " > ");
+            System.out.print(" │ Command > ");
             userInput = in.nextLine();
 
             for (MenuItem i : items) {
                 if (i.getTrigger().equalsIgnoreCase(userInput)) {
                     isCommandWrong = false;
-                    
+
                     i.getFunc().call();
                     break;
                 }
             }
         }
-        
-        
     }
 
-    /**
-     *
-     * @param n
-     */
-    public static void newLine(int n) {
-        for (int i = 0; i < n; i++) {
-            System.out.print("\n");
-        }
-    }
-
-    public static String formatToLength(String base, int length) {
-        String ret = "";
-        for (int i = base.length(); i <= length; i++) {
-            ret += " ";
-        }
-        ret += base;
-        
-        if (base.length() > length) {
-            ret = base.substring(0, length-1) + "..";
-        }
-
-        return ret;
+    private int lengthOfHeader(MenuItem item) {
+        String s = formatMenuItem(item);
+        return s.length();
     }
     
-    private static int lengthOfHeader(MenuItem item){
-        String s = " " + item.getText() + " (" + item.getTrigger() + ") ";
-        return s.length();
-    };
+    private String formatMenuItem(MenuItem item) {
+        return " " + item.getText() + " (" + item.getTrigger() + ") ";
+    }
+    
+    public static String getInput(String label){
+        Scanner in = new Scanner(System.in);
+        String userInput;
+        System.out.print(" │ " + label + " > ");
+        try{
+            userInput = in.nextLine();
+        }
+        catch(Error e){
+            throw new Error(e);
+        }
+        return userInput;
+    }
 }
