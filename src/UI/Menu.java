@@ -114,4 +114,24 @@ public class Menu {
         }
         return userInput;
     }
+    
+    public static int getInputInt(String label){
+        Scanner in = new Scanner(System.in);
+        String userInput;
+        int ret = 0;
+        System.out.print(" │ " + label + " > ");
+        try{
+            userInput = in.nextLine();
+        }
+        catch(Error e){
+            throw e;
+        }
+        try{
+            ret = Integer.parseInt(userInput);
+        }
+        catch(NumberFormatException e){
+            throw e;
+        }
+        return ret;
+    }
 }
