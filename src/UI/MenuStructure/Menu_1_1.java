@@ -2,6 +2,7 @@ package UI.MenuStructure;
 
 import BE.Song;
 import BL.SongManager;
+import UI.Table;
 import UI.Menu;
 import UI.MenuItem;
 import java.io.IOException;
@@ -21,14 +22,22 @@ public class Menu_1_1 extends Menu {
         items.add(new MenuItem("List All", "l", new Callable<Menu_1_1>() {
             public Menu_1_1 call() throws SQLException, IOException, Exception {
                 SongManager sm = new SongManager();
-                int[] tableLayout = {3, 15};
+                ArrayList<Song> data = sm.getAllSongs();
+                String[][] tableData = new String[data.size()][3];
+                
+                int[] tableLayout = {4, 15, 4};
+                String[] tableHeader = {"ID", "Title", "Singer"};
 
-                for (Song item : sm.getAllSongs()) {
-                    String out = "";
-                    out += "|" + formatToLength(Integer.toString(item.getId()), tableLayout[0]) + "|";
-                    out += "|" + formatToLength(item.getTitle(), tableLayout[1]) + "|";
-                    System.out.println(out);
+                for (int i = 0; i < data.size(); i++) {
+                    Song song = data.get(i);
+                    tableData[i][0] = Integer.toString(song.getId());
+                    tableData[i][1] = song.getTitle();
+                    tableData[i][2] = Integer.toString(song.getArtistId());
+                    
                 }
+                Table.draw(tableHeader, tableLayout, tableData);
+                
+                //Menu.getInput("ajhatyűde")
                 return new Menu_1_1();
             }
         }));
