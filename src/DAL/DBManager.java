@@ -8,26 +8,28 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 /**
- * DBManager class.
- *
- * Manages the whole database.
+ * An abstract database manager class that has the connection builder in it's
+ * constructor.
  *
  * @author Anthony
  */
 public abstract class DBManager {
 
-    protected SQLServerDataSource dataSource = new SQLServerDataSource();
-
+    protected static SQLServerDataSource dataSource = new SQLServerDataSource();
+    public static String PATH;
+    
     /**
      * Constructor.
      *
      * Makes the connection and catches the exception in case there is a
      * connection problem.
      */
-    public DBManager() throws SQLException, IOException {
+    public static void main(String[] args) throws SQLException, IOException {
         Properties conf = new Properties();
         FileInputStream file = new FileInputStream("config.properties");
         conf.load(file);
+        
+        PATH = conf.getProperty("music.path");
 
         Connection conn;
         dataSource.setUser(conf.getProperty("jdbc.username"));

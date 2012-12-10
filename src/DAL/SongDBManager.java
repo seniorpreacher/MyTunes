@@ -223,12 +223,4 @@ public class SongDBManager extends DBManager {
         conn.close();
         return sonList;
     }
-
-    /**
-     *
-     * @return
-     */
-    public ArrayList<Song> checkAllSongs() {
-        return null;
-    }
 }
