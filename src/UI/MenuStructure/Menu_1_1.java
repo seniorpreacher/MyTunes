@@ -18,14 +18,14 @@ public class Menu_1_1 extends Menu {
 
     private static ArrayList<MenuItem> create() {
         ArrayList<MenuItem> items = new ArrayList<>();
-        
+
         items.add(new MenuItem("List All", "l", new Callable<Menu_1_1>() {
             @Override
             public Menu_1_1 call() throws SQLException, IOException, Exception {
                 SongManager sm = new SongManager();
                 ArrayList<Song> data = sm.getAllSongs();
                 String[][] tableData = new String[data.size()][3];
-                
+
                 int[] tableLayout = {4, 15, 4};
                 String[] tableHeader = {"ID", "Title", "Singer"};
 
@@ -34,7 +34,7 @@ public class Menu_1_1 extends Menu {
                     tableData[i][0] = Integer.toString(song.getId());
                     tableData[i][1] = song.getTitle();
                     tableData[i][2] = Integer.toString(song.getArtistId());
-                    
+
                 }
                 Table.draw(tableHeader, tableLayout, tableData);
                 return new Menu_1_1();
@@ -48,7 +48,7 @@ public class Menu_1_1 extends Menu {
                 SongManager sm = new SongManager();
                 ArrayList<Song> data = sm.searchSongs(Menu.getInput("Search string"));
                 String[][] tableData = new String[data.size()][3];
-                
+
                 int[] tableLayout = {4, 15, 4};
                 String[] tableHeader = {"ID", "Title", "Singer"};
 
@@ -57,10 +57,10 @@ public class Menu_1_1 extends Menu {
                     tableData[i][0] = Integer.toString(song.getId());
                     tableData[i][1] = song.getTitle();
                     tableData[i][2] = Integer.toString(song.getArtistId());
-                    
+
                 }
                 Table.draw(tableHeader, tableLayout, tableData);
-                
+
                 return new Menu_1_1();
             }
         }));
@@ -70,17 +70,15 @@ public class Menu_1_1 extends Menu {
             public Menu_1_1 call() throws Exception {
                 SongManager sm = new SongManager();
                 Song toAdd = new Song(
-                    0, 
-                    Menu.getInput("Title"), 
-                    Menu.getInputInt("Artist ID"), 
-                    Menu.getInputInt("Category ID"), 
-                    Menu.getInput("File location"), 
-                    Menu.getInputInt("Duration")
-                );
-                try{
+                        0,
+                        Menu.getInput("Title"),
+                        Menu.getInputInt("Artist ID"),
+                        Menu.getInputInt("Category ID"),
+                        Menu.getInput("File location"),
+                        Menu.getInputInt("Duration"));
+                try {
                     sm.addSong(toAdd);
-                }
-                catch(Exception e){
+                } catch (Exception e) {
                     throw e;
                 }
                 return new Menu_1_1();
@@ -97,6 +95,11 @@ public class Menu_1_1 extends Menu {
         items.add(new MenuItem("Remove", "r", new Callable<Menu_1_1>() {
             @Override
             public Menu_1_1 call() throws Exception {
+                SongManager sm = new SongManager();
+                int id = Menu.getInputInt("Song ID to remove");
+                if (id > 0) {
+                    sm.removeSong(id);
+                }
                 return new Menu_1_1();
             }
         }));

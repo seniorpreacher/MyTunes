@@ -15,15 +15,15 @@ public class SongManager {
     private SongDBManager DBM;
 
     public SongManager() throws SQLException, IOException {
-        //DBM = new SongDBManager();
+        DBM = new SongDBManager();
     }
     
     public ArrayList<Song> getAllSongs() throws SQLException {
-        //return DBM.getAllSongs();
-        ArrayList<Song> list = new ArrayList<>();
-        list.add(new Song(0, "Titeleje", 0, 0, "", 320));
-        list.add(new Song(1, "Titeleje 2", 0, 0, "", 321));
-        return list;
+        return DBM.getAllSongs();
+//        ArrayList<Song> list = new ArrayList<>();
+//        list.add(new Song(0, "Titeleje", 0, 0, "", 320));
+//        list.add(new Song(1, "Titeleje 2", 0, 0, "", 321));
+//        return list;
     }
     
     public Song getSongById(int id) throws SQLException {

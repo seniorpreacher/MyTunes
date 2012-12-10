@@ -119,13 +119,18 @@ public class Menu {
         Scanner in = new Scanner(System.in);
         String userInput;
         int ret = 0;
-        System.out.print(" │ " + label + " > ");
+        System.out.print(" │ " + label + " (Undo: 0) > ");
         try{
             userInput = in.nextLine();
         }
         catch(Error e){
             throw e;
         }
+        
+        if(userInput.equals("") || userInput.isEmpty()){
+            return 0;
+        }
+        
         try{
             ret = Integer.parseInt(userInput);
         }

@@ -30,11 +30,16 @@ public abstract class DBManager {
         conf.load(file);
 
         Connection conn;
-        dataSource.setUser(conf.getProperty("jdbc.username"));
-        dataSource.setPassword(conf.getProperty("jdbc.password"));
-        dataSource.setServerName(conf.getProperty("jdbc.servername"));
-        dataSource.setDatabaseName(conf.getProperty("jdbc.databasename"));
-        dataSource.setInstanceName(conf.getProperty("jdbc.dbinstancename"));
+//        dataSource.setUser(conf.getProperty("jdbc.username"));
+//        dataSource.setPassword(conf.getProperty("jdbc.password"));
+//        dataSource.setServerName(conf.getProperty("jdbc.servername"));
+//        dataSource.setDatabaseName(conf.getProperty("jdbc.databasename"));
+//        dataSource.setInstanceName(conf.getProperty("jdbc.dbinstancename"));
+        dataSource.setUser(conf.getProperty("java"));
+        dataSource.setPassword(conf.getProperty("java"));
+        dataSource.setServerName(conf.getProperty("localhost"));
+        dataSource.setDatabaseName(conf.getProperty("MyTunes"));
+        dataSource.setInstanceName(conf.getProperty("SQLEXPRESS"));
         conn = dataSource.getConnection();
         conn.close();
     }
