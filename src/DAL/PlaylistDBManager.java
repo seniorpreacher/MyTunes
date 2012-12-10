@@ -89,37 +89,11 @@ public class PlaylistDBManager extends DBManager {
     }
 
     /**
-     * Gets the last entry from the table 'Artist' and makes an entity out of
-     * it.
-     *
-     * @return a new Artist entity based on the last entry in the table.
-     * @throws SQLException
-     */
-    public Playlist getLastPlaylist() throws SQLException {
-        Playlist pla = null;
-        Connection conn = dataSource.getConnection();
-
-        PreparedStatement plaQue = conn.prepareStatement("SELECT * FROM Playlist WHERE ID = MAX(ID)");
-        ResultSet plaRes = plaQue.executeQuery();
-
-        plaRes.next();
-        int id = plaRes.getInt("ID");
-        String name = plaRes.getString("Name");
-        Timestamp createdOnDB = plaRes.getTimestamp("Created");
-        java.util.Date createdOnL = createdOnDB;
-        long createdOn = createdOnL.getTime();
-        pla = new Playlist(id, name, createdOn);
-
-        conn.close();
-        return pla;
-    }
-    
-    /**
      * Removes the playlist we specify by ID from the table called 'Playlist'.
      *
      * @param iden the ID of the playlist we want to remove.
      * @throws SQLException
-     */    
+     */
     public void removePlaylistByID(int iden) throws SQLException {
         Connection conn = dataSource.getConnection();
 
@@ -129,24 +103,92 @@ public class PlaylistDBManager extends DBManager {
 
         conn.close();
     }
-    
+
+    /**
+     *
+     * @param playlistIden
+     * @param songIden
+     */
+    public void insertSongToPlaylist(int playlistIden, int songIden) throws SQLException {
+        Connection conn = dataSource.getConnection();
+
+        PreparedStatement plaQue = conn.prepareStatement("INSERT INTO PlaylistSong VALUES (?, ?, (SELECT MAX(SeqNum) FROM PlaylistSong WHERE PlaylistID = ?)+1)");
+        plaQue.setInt(1, playlistIden);
+        plaQue.setInt(2, songIden);
+        plaQue.setInt(3, playlistIden);
+        plaQue.executeQuery();
+
+        conn.close();
+    }
+
+    /**
+     *
+     * @param playlistIden
+     * @param songIden
+     */
+    public void removeSongFromPlaylist(int playlistIden, int songIden) throws SQLException {
+        Connection conn = dataSource.getConnection();
+
+        PreparedStatement plaQue = conn.prepareStatement("DELETE FROM PlaylistSong WHERE PlaylistID = ? AND SongID = ?");
+        plaQue.setInt(1, playlistIden);
+        plaQue.setInt(2, songIden);
+        plaQue.executeQuery();
+
+        conn.close();
+    }
+
     /**
      * 
-     * @param songIden 
+     * 
+     * @param playlistIden the ID of our selected playlist.
+     * @param songIden the ID of our selected song.
+     * @param newPos -1 if we want to move a song higher in a playlist and +1 if
+     * we want to move it down.
      */
-    public void insertSongToPlaylist(int songIden) { }
-    
+    public void moveSong(int playlistIden, int songIden, int newPos) throws SQLException {
+        Connection conn = dataSource.getConnection();
+
+        PreparedStatement plaQue = conn.prepareStatement("SELECT SeqNum FROM PlaylistSong WHERE PlaylistID = ? AND SongID = ?");
+        plaQue.setInt(1, playlistIden);
+        plaQue.setInt(2, songIden);
+        ResultSet plaRes = plaQue.executeQuery();
+        plaRes.next();
+        int currentSeqNum = plaRes.getInt("SeqNum");
+
+        PreparedStatement pla2Que = conn.prepareStatement("UPDATE PlaylistSong SET SeqNum = 0 WHERE PlaylistID = ? AND SeqNum = ?; UPDATE PlaylistSong SET SeqNum = ? WHERE PlaylistID = ? AND SongID = ?; UPDATE PlaylistSong SET SeqNum = ? WHERE SeqNum = 0");
+        plaQue.setInt(1, playlistIden);
+        pla2Que.setInt(2, currentSeqNum + newPos);
+        pla2Que.setInt(3, currentSeqNum + newPos);
+        pla2Que.setInt(4, currentSeqNum);
+        pla2Que.executeQuery();
+
+        conn.close();
+    }
+
     /**
      * 
-     * @param songIden 
+     * @param playlistIden
+     * @param songIden
+     * @param newPos
+     * @return
+     * @throws SQLException 
      */
-    public void removeSongFromPlaylist(int songIden) { }
-    
-    /**
-     * 
-     * @param iden
-     * @param songId
-     * @param newPos 
-     */
-    public void reorderPlaylist(int iden, int songId, int newPos) { }
+    public int[] getSeqAndMaxSeq(int playlistIden, int songIden, int newPos) throws SQLException {
+        Connection conn = dataSource.getConnection();
+
+        PreparedStatement plaQue = conn.prepareStatement("SELECT SeqNum FROM PlaylistSong WHERE PlaylistID = ? AND SongID = ? UNION SELECT MAX(SeqNum) FROM PlaylistSong WHERE PlaylistID = ? UNION SELECT MIN(SeqNum) FROM PlaylistSong WHERE PlaylistID = ?");
+        plaQue.setInt(1, playlistIden);
+        plaQue.setInt(2, songIden);
+        plaQue.setInt(3, playlistIden);
+        plaQue.setInt(4, playlistIden);
+        ResultSet plaRes = plaQue.executeQuery();
+        plaRes.next();
+        int curSeqNum = plaRes.getInt(1);
+        plaRes.next();
+        int maxSeqNum = plaRes.getInt(1);
+        plaRes.next();
+        int minSeqNum = plaRes.getInt(1);
+        int[] res = new int[]{curSeqNum, maxSeqNum, minSeqNum};
+        return res;
+    }
 }
