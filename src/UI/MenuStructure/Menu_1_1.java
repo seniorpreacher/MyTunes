@@ -20,6 +20,7 @@ public class Menu_1_1 extends Menu {
         ArrayList<MenuItem> items = new ArrayList<>();
         
         items.add(new MenuItem("List All", "l", new Callable<Menu_1_1>() {
+            @Override
             public Menu_1_1 call() throws SQLException, IOException, Exception {
                 SongManager sm = new SongManager();
                 ArrayList<Song> data = sm.getAllSongs();
@@ -41,6 +42,7 @@ public class Menu_1_1 extends Menu {
         }));
 
         items.add(new MenuItem("Search", "s", new Callable<Menu_1_1>() {
+            @Override
             public Menu_1_1 call() throws Exception {
                 //searchSongs
                 SongManager sm = new SongManager();
@@ -64,6 +66,7 @@ public class Menu_1_1 extends Menu {
         }));
 
         items.add(new MenuItem("Add", "a", new Callable<Menu_1_1>() {
+            @Override
             public Menu_1_1 call() throws Exception {
                 SongManager sm = new SongManager();
                 Song toAdd = new Song(
@@ -85,18 +88,21 @@ public class Menu_1_1 extends Menu {
         }));
 
         items.add(new MenuItem("Edit", "e", new Callable<Menu_1_1>() {
+            @Override
             public Menu_1_1 call() throws Exception {
                 return new Menu_1_1();
             }
         }));
 
         items.add(new MenuItem("Remove", "r", new Callable<Menu_1_1>() {
+            @Override
             public Menu_1_1 call() throws Exception {
                 return new Menu_1_1();
             }
         }));
 
         items.add(new MenuItem("Check all", "c", new Callable<Menu_1_1>() {
+            @Override
             public Menu_1_1 call() throws Exception {
                 return new Menu_1_1();
             }
