@@ -157,7 +157,6 @@ public class SongDBManager extends DBManager {
         Connection conn = dataSource.getConnection();
 
         PreparedStatement sonQue = conn.prepareStatement("UPDATE Song SET Title = ?, ArtistID = ?, CategoryID = ?, FileName = ?, Duration = ? WHERE ID = ?");
-<<<<<<< HEAD
         sonQue.setString(1, song.getTitle());
         sonQue.setInt(2, song.getArtistId());
         sonQue.setInt(3, song.getCategoryId());
@@ -165,15 +164,6 @@ public class SongDBManager extends DBManager {
         sonQue.setInt(5, song.getDuration());
         sonQue.setInt(6, song.getId());
         sonQue.executeQuery();
-=======
-        sonQue.setString(1, title);
-        sonQue.setInt(2, artistId);
-        sonQue.setInt(3, categoryId);
-        sonQue.setString(4, fileName);
-        sonQue.setInt(5, duration);
-        sonQue.setInt(6, iden);
-        sonQue.executeUpdate();
->>>>>>> 9d3104828e8e25470e303f4224d81e4b2fa7e4d7
 
         conn.close();
     }
