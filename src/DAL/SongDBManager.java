@@ -59,7 +59,7 @@ public class SongDBManager extends DBManager {
         Song son = null;
         Connection conn = dataSource.getConnection();
 
-        PreparedStatement sonQue = conn.prepareStatement("SELECT * FROM Song WHERE ID = ?");
+        PreparedStatement sonQue = conn.prepareStatement("SELECT Song.*, Artist.Name as ArtistName FROM Song INNER JOIN Artist ON Artist.ID = Song.ArtistID WHERE Song.ID = ? AND Song.ArtistID = Artist.ID");
         sonQue.setInt(1, iden);
         ResultSet sonRes = sonQue.executeQuery();
 
@@ -70,7 +70,8 @@ public class SongDBManager extends DBManager {
         int categoryId = sonRes.getInt("CategoryID");
         String fileName = sonRes.getString("FileName");
         int duration = sonRes.getInt("Duration");
-        son = new Song(id, title, artistId, categoryId, fileName, duration);
+        String artistName = sonRes.getString("ArtistName");
+        son = new Song(id, title, artistId, categoryId, fileName, duration, artistName);
 
         conn.close();
         return son;
@@ -107,7 +108,7 @@ public class SongDBManager extends DBManager {
         Song son = null;
         Connection conn = dataSource.getConnection();
 
-        PreparedStatement sonQue = conn.prepareStatement("SELECT * FROM Song WHERE ID = MAX(ID)");
+        PreparedStatement sonQue = conn.prepareStatement("SELECT Song.*, Artist.Name as ArtistName FROM Song INNER JOIN Artist ON Artist.ID = Song.ArtistID WHERE Song.ID = MAX(ID) AND Song.ArtistID = Artist.ID");
         ResultSet sonRes = sonQue.executeQuery();
 
         sonRes.next();
@@ -117,7 +118,8 @@ public class SongDBManager extends DBManager {
         int categoryId = sonRes.getInt("CategoryID");
         String fileName = sonRes.getString("FileName");
         int duration = sonRes.getInt("Duration");
-        son = new Song(id, title, artistId, categoryId, fileName, duration);
+        String artistName = sonRes.getString("ArtistName");
+        son = new Song(id, title, artistId, categoryId, fileName, duration, artistName);
 
         conn.close();
         return son;
@@ -134,7 +136,7 @@ public class SongDBManager extends DBManager {
 
         PreparedStatement sonQue = conn.prepareStatement("DELETE FROM Song WHERE ID = ?");
         sonQue.setInt(1, iden);
-        sonQue.executeQuery();
+        sonQue.executeUpdate();
 
         conn.close();
     }
@@ -161,7 +163,7 @@ public class SongDBManager extends DBManager {
         sonQue.setString(4, fileName);
         sonQue.setInt(5, duration);
         sonQue.setInt(6, iden);
-        sonQue.executeQuery();
+        sonQue.executeUpdate();
 
         conn.close();
     }
@@ -178,7 +180,7 @@ public class SongDBManager extends DBManager {
         ArrayList<Song> sonList = new ArrayList<>();
         Connection conn = dataSource.getConnection();
 
-        PreparedStatement sonQue = conn.prepareStatement("SELECT Song.* FROM Song INNER JOIN Artist ON Artist.ID = Song.ArtistID WHERE Song.Title LIKE '%?%' OR Artist.Name LIKE '%?%'");
+        PreparedStatement sonQue = conn.prepareStatement("SELECT Song.*, Artist.Name as ArtistName FROM Song INNER JOIN Artist ON Artist.ID = Song.ArtistID WHERE Song.Title LIKE '%?%' OR Artist.Name LIKE '%?%'");
         sonQue.setString(1, term);
         sonQue.setString(2, term);
         ResultSet sonRes = sonQue.executeQuery();
@@ -190,7 +192,8 @@ public class SongDBManager extends DBManager {
             int categoryId = sonRes.getInt("CategoryID");
             String fileName = sonRes.getString("FileName");
             int duration = sonRes.getInt("Duration");
-            sonList.add(new Song(id, title, artistId, categoryId, fileName, duration));
+            String artistName = sonRes.getString("ArtistName");
+            sonList.add(new Song(id, title, artistId, categoryId, fileName, duration, artistNames));
         }
 
         conn.close();
