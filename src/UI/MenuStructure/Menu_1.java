@@ -19,10 +19,9 @@ public class Menu_1 extends Menu {
             }
         }));
         
-        items.add(new MenuItem("Playlist", "p", new Callable<Integer>(){
-            public Integer call(){
-                System.out.println("asd");
-                return null;
+        items.add(new MenuItem("Playlist", "p", new Callable<Menu_1_2>(){
+            public Menu_1_2 call() throws Exception{
+                return new Menu_1_2();
             }
         }));
         
