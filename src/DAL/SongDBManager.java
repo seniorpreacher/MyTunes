@@ -193,7 +193,7 @@ public class SongDBManager extends DBManager {
             String fileName = sonRes.getString("FileName");
             int duration = sonRes.getInt("Duration");
             String artistName = sonRes.getString("ArtistName");
-            sonList.add(new Song(id, title, artistId, categoryId, fileName, duration, artistNames));
+            sonList.add(new Song(id, title, artistId, categoryId, fileName, duration, artistName));
         }
 
         conn.close();
