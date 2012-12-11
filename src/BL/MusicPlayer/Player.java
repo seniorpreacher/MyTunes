@@ -1,4 +1,4 @@
-package BL.Player;
+package BL.MusicPlayer;
 
 /**
  *
