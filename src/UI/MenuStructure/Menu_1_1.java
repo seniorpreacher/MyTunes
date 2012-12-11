@@ -27,7 +27,7 @@ public class Menu_1_1 extends Menu {
                 String[][] tableData = new String[data.size()][3];
 
                 int[] tableLayout = {4, 15, 4};
-                String[] tableHeader = {"ID", "Title", "Singer"};
+                String[] tableHeader = {"ID", "Title", "Artist"};
 
                 for (int i = 0; i < data.size(); i++) {
                     Song song = data.get(i);
@@ -70,7 +70,6 @@ public class Menu_1_1 extends Menu {
             public Menu_1_1 call() throws Exception {
                 SongManager sm = new SongManager();
                 Song toAdd = new Song(
-                        0,
                         Menu.getInput("Title"),
                         Menu.getInputInt("Artist ID"),
                         Menu.getInputInt("Category ID"),

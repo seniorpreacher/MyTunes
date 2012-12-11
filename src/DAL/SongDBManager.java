@@ -84,12 +84,12 @@ public class SongDBManager extends DBManager {
     public void insertSong(Song son) throws SQLException {
         Connection conn = dataSource.getConnection();
 
-        PreparedStatement sonQue = conn.prepareStatement("INSERT INTO Song VALUES (?, ?, ?, ?, ?, ?)");
-        sonQue.setString(2, son.getTitle());
-        sonQue.setInt(3, son.getArtistId());
-        sonQue.setInt(4, son.getCategoryId());
-        sonQue.setString(5, son.getFileName());
-        sonQue.setInt(6, son.getDuration());
+        PreparedStatement sonQue = conn.prepareStatement("INSERT INTO Song (Title, ArtistID, CategoryID, FileName, Duration) VALUES (?, ?, ?, ?, ?)");
+        sonQue.setString(1, son.getTitle());
+        sonQue.setInt(2, son.getArtistId());
+        sonQue.setInt(3, son.getCategoryId());
+        sonQue.setString(4, son.getFileName());
+        sonQue.setInt(5, son.getDuration());
         sonQue.executeUpdate();
 
         conn.close();
