@@ -29,7 +29,7 @@ public class SongDBManager extends DBManager {
         ArrayList<Song> sonList = new ArrayList<>();
         Connection conn = dataSource.getConnection();
 
-        PreparedStatement sonQue = conn.prepareStatement("SELECT Song.*, Artist.Name as ArtistName FROM Song INNER JOIN Artist ON Artist.ID = Song.ArtistID WHERE Song.ArtistID = Artist.ID");
+        PreparedStatement sonQue = conn.prepareStatement("SELECT Song.*, Artist.Name as ArtistName, Category.Category as CategoryName FROM Song INNER JOIN Artist ON Artist.ID = Song.ArtistID INNER JOIN Category ON Category.ID = Song.CategoryID WHERE Song.ArtistID = Artist.ID");
         ResultSet sonRes = sonQue.executeQuery();
 
         while (sonRes.next()) {
@@ -40,7 +40,8 @@ public class SongDBManager extends DBManager {
             String fileName = sonRes.getString("FileName");
             int duration = sonRes.getInt("Duration");
             String artistName = sonRes.getString("ArtistName");
-            sonList.add(new Song(id, title, artistId, categoryId, fileName, duration, artistName));
+            String categoryName = sonRes.getString("CategoryName");
+            sonList.add(new Song(id, title, artistId, categoryId, fileName, duration, artistName, categoryName));
         }
 
         conn.close();
@@ -59,7 +60,7 @@ public class SongDBManager extends DBManager {
         Song son = null;
         Connection conn = dataSource.getConnection();
 
-        PreparedStatement sonQue = conn.prepareStatement("SELECT Song.*, Artist.Name as ArtistName FROM Song INNER JOIN Artist ON Artist.ID = Song.ArtistID WHERE Song.ID = ? AND Song.ArtistID = Artist.ID");
+        PreparedStatement sonQue = conn.prepareStatement("SELECT Song.*, Artist.Name as ArtistName, Category.Category as CategoryName FROM Song INNER JOIN Artist ON Artist.ID = Song.ArtistID INNER JOIN Category ON Category.ID = Song.CategoryID WHERE Song.ID = ? AND Song.ArtistID = Artist.ID");
         sonQue.setInt(1, iden);
         ResultSet sonRes = sonQue.executeQuery();
 
@@ -71,7 +72,8 @@ public class SongDBManager extends DBManager {
         String fileName = sonRes.getString("FileName");
         int duration = sonRes.getInt("Duration");
         String artistName = sonRes.getString("ArtistName");
-        son = new Song(id, title, artistId, categoryId, fileName, duration, artistName);
+        String categoryName = sonRes.getString("CategoryName");
+        son = new Song(id, title, artistId, categoryId, fileName, duration, artistName, categoryName);
 
         conn.close();
         return son;
@@ -108,7 +110,7 @@ public class SongDBManager extends DBManager {
         Song son = null;
         Connection conn = dataSource.getConnection();
 
-        PreparedStatement sonQue = conn.prepareStatement("SELECT Song.*, Artist.Name as ArtistName FROM Song INNER JOIN Artist ON Artist.ID = Song.ArtistID WHERE Song.ID = MAX(ID) AND Song.ArtistID = Artist.ID");
+        PreparedStatement sonQue = conn.prepareStatement("SELECT Song.*, Artist.Name as ArtistName, Category.Name as CategoryName FROM Song INNER JOIN Artist ON Artist.ID = Song.ArtistID INNER JOIN Category ON Category.ID = Song.CategoryID WHERE Song.ID = MAX(ID) AND Song.ArtistID = Artist.ID");
         ResultSet sonRes = sonQue.executeQuery();
 
         sonRes.next();
@@ -119,7 +121,8 @@ public class SongDBManager extends DBManager {
         String fileName = sonRes.getString("FileName");
         int duration = sonRes.getInt("Duration");
         String artistName = sonRes.getString("ArtistName");
-        son = new Song(id, title, artistId, categoryId, fileName, duration, artistName);
+        String categoryName = sonRes.getString("CategoryName");
+        son = new Song(id, title, artistId, categoryId, fileName, duration, artistName, categoryName);
 
         conn.close();
         return son;
@@ -180,9 +183,9 @@ public class SongDBManager extends DBManager {
         ArrayList<Song> sonList = new ArrayList<>();
         Connection conn = dataSource.getConnection();
 
-        PreparedStatement sonQue = conn.prepareStatement("SELECT Song.*, Artist.Name as ArtistName FROM Song INNER JOIN Artist ON Artist.ID = Song.ArtistID WHERE Song.Title LIKE '%?%' OR Artist.Name LIKE '%?%'");
-        sonQue.setString(1, term);
-        sonQue.setString(2, term);
+        PreparedStatement sonQue = conn.prepareStatement("SELECT Song.*, Artist.Name as ArtistName, Category.Category as CategoryName FROM Song INNER JOIN Artist ON Artist.ID = Song.ArtistID INNER JOIN Category ON Category.ID = Song.CategoryID WHERE Song.Title LIKE ? OR Artist.Name LIKE ?");
+        sonQue.setString(1, "%"+term+"%");
+        sonQue.setString(2, "%"+term+"%");
         ResultSet sonRes = sonQue.executeQuery();
 
         while (sonRes.next()) {
@@ -193,7 +196,8 @@ public class SongDBManager extends DBManager {
             String fileName = sonRes.getString("FileName");
             int duration = sonRes.getInt("Duration");
             String artistName = sonRes.getString("ArtistName");
-            sonList.add(new Song(id, title, artistId, categoryId, fileName, duration, artistName));
+            String categoryName = sonRes.getString("CategoryName");
+            sonList.add(new Song(id, title, artistId, categoryId, fileName, duration, artistName, categoryName));
         }
 
         conn.close();

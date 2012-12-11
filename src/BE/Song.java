@@ -16,6 +16,7 @@ public class Song {
     private String fileName;
     private int duration;
     private String artistName;
+    private String categoryName;
 
     public Song(String title, int artistId, int categoryId, String 
             fileName, int duration) {
@@ -37,7 +38,7 @@ public class Song {
     }
     
       public Song(int id, String title, int artistId, int categoryId, String 
-            fileName, int duration, String artistName) {
+            fileName, int duration, String artistName, String categoryName) {
         this.id = id;
         this.title = title;
         this.artistId = artistId;
@@ -45,6 +46,7 @@ public class Song {
         this.fileName = fileName;
         this.duration = duration;
         this.artistName = artistName;
+        this.categoryName = categoryName;
     }
 
     public int getId() {
@@ -73,6 +75,10 @@ public class Song {
     
     public String getArtistName() {
         return artistName;
+    }
+    
+    public String getCategoryName() {
+        return categoryName;
     }
     
     @Override
