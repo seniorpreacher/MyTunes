@@ -1,5 +1,6 @@
 package UI;
 
+import BE.Playlist;
 import BE.Song;
 import java.util.ArrayList;
 
@@ -70,7 +71,7 @@ public class Table {
         Table.draw(tableHeader, tableLayout, tableData);
     }
 
-    public static void fromSongList(ArrayList<Song> data) {
+    public static void fromSong(ArrayList<Song> data) {
 
         String[][] tableData = new String[data.size()][4];
 
@@ -85,6 +86,35 @@ public class Table {
             tableData[i][3] = Integer.toString(song.getDuration());
 
         }
+        Table.draw(tableHeader, tableLayout, tableData);
+    }
+
+    public static void fromPlaylist(Playlist pl) {
+
+        String[][] tableData = new String[1][2];
+
+        int[] tableLayout = {4, 15, 25, 7};
+        String[] tableHeader = {"ID", "Name"};
+
+        tableData[0][0] = Integer.toString(pl.getId());
+        tableData[0][1] = pl.getName();
+        
+        Table.draw(tableHeader, tableLayout, tableData);
+    }
+
+    public static void fromPlaylist(ArrayList<Playlist> data) {
+
+        String[][] tableData = new String[data.size()][2];
+
+        int[] tableLayout = {4, 15, 25, 7};
+        String[] tableHeader = {"ID", "Name"};
+
+        for (int i = 0; i < data.size(); i++) {
+            Playlist pl = data.get(i);
+            tableData[i][0] = Integer.toString(pl.getId());
+            tableData[i][1] = pl.getName();
+        }
+        
         Table.draw(tableHeader, tableLayout, tableData);
     }
 }

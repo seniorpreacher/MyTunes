@@ -25,7 +25,7 @@ public class Menu_1_1 extends Menu {
                 SongManager sm = new SongManager();
                 ArrayList<Song> data = sm.getAllSongs();
                 
-                Table.fromSongList(data);
+                Table.fromSong(data);
                 Menu.waitForEnter();
                 return new Menu_1_1();
             }
@@ -37,7 +37,7 @@ public class Menu_1_1 extends Menu {
                 SongManager sm = new SongManager();
                 ArrayList<Song> data = sm.searchSongs(Menu.getInput("Search string"));
                 
-                Table.fromSongList(data);
+                Table.fromSong(data);
                 Menu.waitForEnter();
                 return new Menu_1_1();
             }

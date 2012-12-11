@@ -23,6 +23,10 @@ public class Playlist {
         this.createdOn.setTime(createdOn);
     }
 
+    public Playlist(String name) {
+        this.name = name;
+    }
+
     public int getId() {
         return id;
     }
