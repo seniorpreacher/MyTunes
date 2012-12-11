@@ -163,7 +163,7 @@ public class SongDBManager extends DBManager {
         sonQue.setString(4, song.getFileName());
         sonQue.setInt(5, song.getDuration());
         sonQue.setInt(6, song.getId());
-        sonQue.executeQuery();
+        sonQue.executeUpdate();
 
         conn.close();
     }

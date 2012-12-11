@@ -139,4 +139,21 @@ public class Menu {
         }
         return ret;
     }
+    
+    public static void waitForEnter(){
+        Scanner in = new Scanner(System.in);
+        System.out.print(" │");
+        in.nextLine();
+    }
+    
+    public static void Message(String m){
+        System.out.println(" │ " + m + "...");
+    }
+    
+    public static void waitWithMessage(String m){
+        Message(m + ", press return to continue");
+        waitForEnter();
+    }
+    
+    
 }

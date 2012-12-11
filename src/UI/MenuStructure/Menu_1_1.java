@@ -26,6 +26,7 @@ public class Menu_1_1 extends Menu {
                 ArrayList<Song> data = sm.getAllSongs();
                 
                 Table.fromSongList(data);
+                Menu.waitForEnter();
                 return new Menu_1_1();
             }
         }));
@@ -37,6 +38,7 @@ public class Menu_1_1 extends Menu {
                 ArrayList<Song> data = sm.searchSongs(Menu.getInput("Search string"));
                 
                 Table.fromSongList(data);
+                Menu.waitForEnter();
                 return new Menu_1_1();
             }
         }));
@@ -75,6 +77,7 @@ public class Menu_1_1 extends Menu {
                 if (id > 0) {
                     sm.removeSong(id);
                 }
+                Menu.waitWithMessage("Song removed");
                 return new Menu_1_1();
             }
         }));
