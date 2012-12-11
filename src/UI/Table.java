@@ -44,6 +44,10 @@ public class Table {
     }
 
     private static String formatToLength(String base, int length) {
+        if(base == null) {
+            throw new NullPointerException();
+        }
+        
         String ret = "";
         for (int i = base.length(); i <= length; i++) {
             ret += " ";
