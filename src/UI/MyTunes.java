@@ -1,9 +1,13 @@
 package UI;
 
+import BL.MusicPlayer;
 import UI.MenuStructure.Menu_main;
 
 public class MyTunes {
+    public static MusicPlayer musicPlayer;
+    
     public static void main(String[] args) throws Exception {
+        musicPlayer = new MusicPlayer();
         System.out.println(" ┌──── ── ── ─ ─ - -");
         System.out.println(" │ Welcome to MyTunes");
         System.out.println(" ├──── ── ── ─ ─ - -");

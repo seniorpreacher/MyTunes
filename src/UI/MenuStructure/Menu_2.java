@@ -1,7 +1,9 @@
 package UI.MenuStructure;
 
+import BL.MusicPlayer;
 import UI.Menu;
 import UI.MenuItem;
+import UI.MyTunes;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
@@ -13,23 +15,22 @@ public class Menu_2 extends Menu {
 
     private static ArrayList<MenuItem> create() {
         ArrayList<MenuItem> items = new ArrayList<>();
-        items.add(new MenuItem("Back", "b", new Callable<Menu>(){
-            public Menu call() throws Exception{
-                return new Menu_main();
+        
+        items.add(new MenuItem("Play a song", "p", new Callable<Menu_2>(){
+            public Menu_2 call() throws Exception{
+                MyTunes.musicPlayer.setSong("songs/Heroes - Opening Theme.mp3");
+                Thread t = new Thread(MyTunes.musicPlayer);
+                t.start();
+        
+                return new Menu_2();
             }
         }));
         
-        items.add(new MenuItem("Song", "s", new Callable<Integer>(){
-            public Integer call(){
-                System.out.println("asd");
-                return null;
-            }
-        }));
-        
-        items.add(new MenuItem("Playlist", "p", new Callable<Integer>(){
-            public Integer call(){
-                System.out.println("asd");
-                return null;
+        items.add(new MenuItem("Stop", "s", new Callable<Menu_2>(){
+            public Menu_2 call() throws Exception{
+                MyTunes.musicPlayer.stop();
+                
+                return new Menu_2();
             }
         }));
         
