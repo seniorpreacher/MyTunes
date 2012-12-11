@@ -118,7 +118,7 @@ public class CategoryDBManager extends DBManager {
 
         PreparedStatement catQue = conn.prepareStatement("DELETE FROM Category WHERE ID = ?");
         catQue.setInt(1, iden);
-        catQue.executeQuery();
+        catQue.executeUpdate();
 
         conn.close();
     }

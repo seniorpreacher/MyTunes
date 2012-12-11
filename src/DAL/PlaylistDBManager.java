@@ -99,7 +99,7 @@ public class PlaylistDBManager extends DBManager {
 
         PreparedStatement plaQue = conn.prepareStatement("DELETE FROM Playlist WHERE ID = ?");
         plaQue.setInt(1, iden);
-        plaQue.executeQuery();
+        plaQue.executeUpdate();
 
         conn.close();
     }
@@ -116,7 +116,7 @@ public class PlaylistDBManager extends DBManager {
         plaQue.setInt(1, playlistIden);
         plaQue.setInt(2, songIden);
         plaQue.setInt(3, playlistIden);
-        plaQue.executeQuery();
+        plaQue.executeUpdate();
 
         conn.close();
     }
@@ -132,7 +132,7 @@ public class PlaylistDBManager extends DBManager {
         PreparedStatement plaQue = conn.prepareStatement("DELETE FROM PlaylistSong WHERE PlaylistID = ? AND SongID = ?");
         plaQue.setInt(1, playlistIden);
         plaQue.setInt(2, songIden);
-        plaQue.executeQuery();
+        plaQue.executeUpdate();
 
         conn.close();
     }

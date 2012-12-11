@@ -117,7 +117,7 @@ public class ArtistDBManager extends DBManager {
 
         PreparedStatement artQue = conn.prepareStatement("DELETE FROM Artist WHERE ID = ?");
         artQue.setInt(1, iden);
-        artQue.executeQuery();
+        artQue.executeUpdate();
 
         conn.close();
     }
