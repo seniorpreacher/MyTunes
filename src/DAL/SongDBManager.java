@@ -29,7 +29,7 @@ public class SongDBManager extends DBManager {
         ArrayList<Song> sonList = new ArrayList<>();
         Connection conn = dataSource.getConnection();
 
-        PreparedStatement sonQue = conn.prepareStatement("SELECT * FROM Song");
+        PreparedStatement sonQue = conn.prepareStatement("SELECT Song.*, Artist.Name as ArtistName FROM Song INNER JOIN Artist ON Artist.ID = Song.ArtistID WHERE Song.ArtistID = Artist.ID");
         ResultSet sonRes = sonQue.executeQuery();
 
         while (sonRes.next()) {
@@ -39,7 +39,8 @@ public class SongDBManager extends DBManager {
             int categoryId = sonRes.getInt("CategoryID");
             String fileName = sonRes.getString("FileName");
             int duration = sonRes.getInt("Duration");
-            sonList.add(new Song(id, title, artistId, categoryId, fileName, duration));
+            String artistName = sonRes.getString("ArtistName");
+            sonList.add(new Song(id, title, artistId, categoryId, fileName, duration, artistName));
         }
 
         conn.close();
