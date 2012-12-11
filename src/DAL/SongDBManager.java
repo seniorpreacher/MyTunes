@@ -134,7 +134,7 @@ public class SongDBManager extends DBManager {
 
         PreparedStatement sonQue = conn.prepareStatement("DELETE FROM Song WHERE ID = ?");
         sonQue.setInt(1, iden);
-        sonQue.executeQuery();
+        sonQue.executeUpdate();
 
         conn.close();
     }
@@ -151,16 +151,16 @@ public class SongDBManager extends DBManager {
      * @param duration the NEW duration for the song.
      * @throws SQLException
      */
-    public void updateSong(int iden, String title, int artistId, int categoryId, String fileName, int duration) throws SQLException {
+    public void updateSong(Song song) throws SQLException {
         Connection conn = dataSource.getConnection();
 
         PreparedStatement sonQue = conn.prepareStatement("UPDATE Song SET Title = ?, ArtistID = ?, CategoryID = ?, FileName = ?, Duration = ? WHERE ID = ?");
-        sonQue.setString(1, title);
-        sonQue.setInt(2, artistId);
-        sonQue.setInt(3, categoryId);
-        sonQue.setString(4, fileName);
-        sonQue.setInt(5, duration);
-        sonQue.setInt(6, iden);
+        sonQue.setString(1, song.getTitle());
+        sonQue.setInt(2, song.getArtistId());
+        sonQue.setInt(3, song.getCategoryId());
+        sonQue.setString(4, song.getFileName());
+        sonQue.setInt(5, song.getDuration());
+        sonQue.setInt(6, song.getId());
         sonQue.executeQuery();
 
         conn.close();

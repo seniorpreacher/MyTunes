@@ -35,8 +35,8 @@ public class SongManager {
         DBM.removeSongByID(id);
     }
 
-    public void updateSong(int id, String title, int artistId, int categoryId, String filename, int duration) throws SQLException {
-        DBM.updateSong(id, title, artistId, categoryId, filename, duration);
+    public void updateSong(Song song) throws SQLException {
+        DBM.updateSong(song);
     }
 
     public ArrayList<Song> searchSongs(String term) throws SQLException {

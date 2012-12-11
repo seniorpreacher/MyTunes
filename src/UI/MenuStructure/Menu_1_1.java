@@ -24,19 +24,8 @@ public class Menu_1_1 extends Menu {
             public Menu_1_1 call() throws SQLException, IOException, Exception {
                 SongManager sm = new SongManager();
                 ArrayList<Song> data = sm.getAllSongs();
-                String[][] tableData = new String[data.size()][3];
-
-                int[] tableLayout = {4, 15, 4};
-                String[] tableHeader = {"ID", "Title", "Artist"};
-
-                for (int i = 0; i < data.size(); i++) {
-                    Song song = data.get(i);
-                    tableData[i][0] = Integer.toString(song.getId());
-                    tableData[i][1] = song.getTitle();
-                    tableData[i][2] = Integer.toString(song.getArtistId());
-
-                }
-                Table.draw(tableHeader, tableLayout, tableData);
+                
+                Table.fromSongList(data);
                 return new Menu_1_1();
             }
         }));
@@ -44,23 +33,10 @@ public class Menu_1_1 extends Menu {
         items.add(new MenuItem("Search", "s", new Callable<Menu_1_1>() {
             @Override
             public Menu_1_1 call() throws Exception {
-                //searchSongs
                 SongManager sm = new SongManager();
                 ArrayList<Song> data = sm.searchSongs(Menu.getInput("Search string"));
-                String[][] tableData = new String[data.size()][3];
-
-                int[] tableLayout = {4, 15, 4};
-                String[] tableHeader = {"ID", "Title", "Singer"};
-
-                for (int i = 0; i < data.size(); i++) {
-                    Song song = data.get(i);
-                    tableData[i][0] = Integer.toString(song.getId());
-                    tableData[i][1] = song.getTitle();
-                    tableData[i][2] = Integer.toString(song.getArtistId());
-
-                }
-                Table.draw(tableHeader, tableLayout, tableData);
-
+                
+                Table.fromSongList(data);
                 return new Menu_1_1();
             }
         }));
@@ -84,10 +60,10 @@ public class Menu_1_1 extends Menu {
             }
         }));
 
-        items.add(new MenuItem("Edit", "e", new Callable<Menu_1_1>() {
+        items.add(new MenuItem("Edit", "e", new Callable<Menu_1_1_edit>() {
             @Override
-            public Menu_1_1 call() throws Exception {
-                return new Menu_1_1();
+            public Menu_1_1_edit call() throws Exception {
+                return new Menu_1_1_edit();
             }
         }));
 
