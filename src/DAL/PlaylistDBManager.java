@@ -80,9 +80,9 @@ public class PlaylistDBManager extends DBManager {
     public void insertPlaylist(Playlist pla) throws SQLException {
         Connection conn = dataSource.getConnection();
 
-        PreparedStatement plaQue = conn.prepareStatement("INSERT INTO Playlist VALUES (?, ?, ?)");
-        plaQue.setString(2, pla.getName());
-        plaQue.setTimestamp(3, new Timestamp(pla.getCreatedOn().getTime()));
+        PreparedStatement plaQue = conn.prepareStatement("INSERT INTO Playlist (Name, Created) VALUES (?, ?)");
+        plaQue.setString(1, pla.getName());
+        plaQue.setTimestamp(2, new Timestamp(pla.getCreatedOn().getTime()));
         plaQue.executeUpdate();
 
         conn.close();
@@ -112,7 +112,7 @@ public class PlaylistDBManager extends DBManager {
     public void insertSongToPlaylist(int playlistIden, int songIden) throws SQLException {
         Connection conn = dataSource.getConnection();
 
-        PreparedStatement plaQue = conn.prepareStatement("INSERT INTO PlaylistSong VALUES (?, ?, (SELECT MAX(SeqNum) FROM PlaylistSong WHERE PlaylistID = ?)+1)");
+        PreparedStatement plaQue = conn.prepareStatement("INSERT INTO PlaylistSong VALUES (?, ?, (SELECT ISNULL(MAX(SeqNum),0) FROM PlaylistSong WHERE PlaylistID = ?)+1)");
         plaQue.setInt(1, playlistIden);
         plaQue.setInt(2, songIden);
         plaQue.setInt(3, playlistIden);
