@@ -155,12 +155,16 @@ public class PlaylistDBManager extends DBManager {
         plaRes.next();
         int currentSeqNum = plaRes.getInt("SeqNum");
 
-        PreparedStatement pla2Que = conn.prepareStatement("UPDATE PlaylistSong SET SeqNum = 0 WHERE PlaylistID = ? AND SeqNum = ?; UPDATE PlaylistSong SET SeqNum = ? WHERE PlaylistID = ? AND SongID = ?; UPDATE PlaylistSong SET SeqNum = ? WHERE SeqNum = 0");
-        plaQue.setInt(1, playlistIden);
+        PreparedStatement pla2Que = conn.prepareStatement("UPDATE PlaylistSong SET SeqNum = 0 WHERE PlaylistID = ? AND"
+                + " SeqNum = ?; UPDATE PlaylistSong SET SeqNum = ? WHERE PlaylistID = ? AND SongID = ?;"
+                + " UPDATE PlaylistSong SET SeqNum = ? WHERE SeqNum = 0");
+        pla2Que.setInt(1, playlistIden);
         pla2Que.setInt(2, currentSeqNum + newPos);
         pla2Que.setInt(3, currentSeqNum + newPos);
-        pla2Que.setInt(4, currentSeqNum);
-        pla2Que.executeQuery();
+        pla2Que.setInt(4, playlistIden);
+        pla2Que.setInt(5, songIden);
+        pla2Que.setInt(6, currentSeqNum);
+        pla2Que.executeUpdate();
 
         conn.close();
     }
@@ -176,7 +180,7 @@ public class PlaylistDBManager extends DBManager {
     public int[] getSeqAndMaxSeq(int playlistIden, int songIden, int newPos) throws SQLException {
         Connection conn = dataSource.getConnection();
 
-        PreparedStatement plaQue = conn.prepareStatement("SELECT SeqNum FROM PlaylistSong WHERE PlaylistID = ? AND SongID = ? UNION SELECT MAX(SeqNum) FROM PlaylistSong WHERE PlaylistID = ? UNION SELECT MIN(SeqNum) FROM PlaylistSong WHERE PlaylistID = ?");
+        PreparedStatement plaQue = conn.prepareStatement("SELECT SeqNum FROM PlaylistSong WHERE PlaylistID = ? AND SongID = ? UNION ALL SELECT SeqNum = MAX(SeqNum) FROM PlaylistSong WHERE PlaylistID = ? UNION ALL SELECT SeqNum = MIN(SeqNum) FROM PlaylistSong WHERE PlaylistID = ?;");
         plaQue.setInt(1, playlistIden);
         plaQue.setInt(2, songIden);
         plaQue.setInt(3, playlistIden);

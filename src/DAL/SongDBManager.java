@@ -214,7 +214,7 @@ public class SongDBManager extends DBManager {
         ArrayList<Song> sonList = new ArrayList<>();
         Connection conn = dataSource.getConnection();
 
-        PreparedStatement sonQue = conn.prepareStatement("SELECT Song.*, Artist.Name as ArtistName, Category.Category as CategoryName FROM Song INNER JOIN PlaylistSong ON PlaylistSong.SongID = Song.ID INNER JOIN Artist ON Artist.ID = Song.ArtistID INNER JOIN Category ON Category.ID = Song.CategoryID WHERE PlaylistSong.PlaylistID = ?");
+        PreparedStatement sonQue = conn.prepareStatement("SELECT Song.*, Artist.Name as ArtistName, Category.Category as CategoryName FROM Song INNER JOIN PlaylistSong ON PlaylistSong.SongID = Song.ID INNER JOIN Artist ON Artist.ID = Song.ArtistID INNER JOIN Category ON Category.ID = Song.CategoryID WHERE PlaylistSong.PlaylistID = ? ORDER BY PlaylistSong.SeqNum ASC");
         sonQue.setInt(1, playlistId);
         ResultSet sonRes = sonQue.executeQuery();
 
