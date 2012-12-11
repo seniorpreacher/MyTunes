@@ -1,6 +1,7 @@
 package UI.MenuStructure;
 
 import BE.Song;
+import BL.PlaylistManager;
 import BL.SongManager;
 import UI.Table;
 import UI.Menu;
@@ -76,8 +77,22 @@ public class Menu_1_1 extends Menu {
                 int id = Menu.getInputInt("Song ID to remove");
                 if (id > 0) {
                     sm.removeSong(id);
+                    Menu.waitWithMessage("Song removed");
                 }
-                Menu.waitWithMessage("Song removed");
+                return new Menu_1_1();
+            }
+        }));
+
+        items.add(new MenuItem("Add song to playlist", "p", new Callable<Menu_1_1>() {
+            @Override
+            public Menu_1_1 call() throws Exception {
+                PlaylistManager pm = new PlaylistManager();
+                int songId = Menu.getInputInt("Song ID to add");
+                int playlistId = Menu.getInputInt("Playlist ID");
+                if (songId > 0 && playlistId > 0) {
+                    pm.insertSongToPlaylist(playlistId, songId);
+                    Menu.waitWithMessage("Song added to playlist");
+                }
                 return new Menu_1_1();
             }
         }));
