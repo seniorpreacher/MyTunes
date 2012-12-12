@@ -26,6 +26,15 @@ public class PlaylistManager {
         return DBM.getPlaylistByID(id);
     }
 
+    public ArrayList<Playlist> getPlaylist(String search) throws SQLException, IOException {
+        SongManager sm = new SongManager();
+        ArrayList<Playlist> playlists = DBM.getPlaylist(search);
+        for(Playlist pl : playlists){
+            pl.setSongs(sm.getSongsFromPlaylist(pl.getId()));
+        }
+        return playlists;
+    }
+
     public void addPlaylist(Playlist pla) throws SQLException {
         DBM.insertPlaylist(pla);
     }

@@ -48,12 +48,29 @@ public class Menu_1_1 extends Menu {
             @Override
             public Menu_1_1 call() throws Exception {
                 SongManager sm = new SongManager();
-                Song toAdd = new Song(
-                        Menu.getInput("Title"),
-                        Menu.getInputInt("Artist ID"),
-                        Menu.getInputInt("Category ID"),
-                        Menu.getInput("File location"),
-                        Menu.getInputInt("Duration"));
+                
+                String title = Menu.getInput("Title");
+                if(title.equalsIgnoreCase("") || title.isEmpty()){
+                    return new Menu_1_1();
+                }
+                int artistId = Menu.getInputInt("Artist ID");
+                if(artistId < 1){
+                    return new Menu_1_1();
+                }
+                int categoryId = Menu.getInputInt("Category ID");
+                if(categoryId < 1){
+                    return new Menu_1_1();
+                }
+                String location = Menu.getInput("File location");
+                if(location.equalsIgnoreCase("") || location.isEmpty()){
+                    return new Menu_1_1();
+                }
+                int duration = Menu.getInputInt("Duration");
+                if(duration < 1){
+                    return new Menu_1_1();
+                }
+                
+                Song toAdd = new Song(title, artistId, categoryId, location, duration);
                 try {
                     sm.addSong(toAdd);
                 } catch (Exception e) {

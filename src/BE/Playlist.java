@@ -2,6 +2,7 @@ package BE;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -16,6 +17,7 @@ public class Playlist {
     private int id;
     private String name;
     private Date createdOn = new Date();
+    private ArrayList<Song> songs;
 
     public Playlist(int id, String name, long createdOn) {
         this.id = id;
@@ -49,4 +51,19 @@ public class Playlist {
     public String toString() {
         return getId() + ". " + getName() + " - " + formatDateToString(getCreatedOn());
     }
+
+    /**
+     * @return the songs
+     */
+    public ArrayList<Song> getSongs() {
+        return songs;
+    }
+
+    /**
+     * @param songs the songs to set
+     */
+    public void setSongs(ArrayList<Song> songs) {
+        this.songs = songs;
+    }
+    
 }

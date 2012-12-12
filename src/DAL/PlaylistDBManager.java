@@ -71,6 +71,34 @@ public class PlaylistDBManager extends DBManager {
     }
 
     /**
+     * Takes in a String and makes a query to the database. Then constructs a
+     * Playlist instance based on the query results.
+     *
+     * @param search in playlist names.
+     * @return a specific Playlist instance.
+     * @throws SQLException
+     */
+    public ArrayList<Playlist> getPlaylist(String search) throws SQLException {
+        ArrayList<Playlist> ret = new ArrayList<>();
+        try (Connection conn = dataSource.getConnection()) {
+            PreparedStatement plaQue = conn.prepareStatement("SELECT * FROM Playlist WHERE Name LIKE ?");
+            plaQue.setString(1, "%"+search+"%");
+            ResultSet plaRes = plaQue.executeQuery();
+
+            while (plaRes.next()) {
+                int id = plaRes.getInt("ID");
+                String name = plaRes.getString("Name");
+                Timestamp createdOnDB = plaRes.getTimestamp("Created");
+                java.util.Date createdOnL = createdOnDB;
+                long createdOn = createdOnL.getTime();
+                
+                ret.add(new Playlist(id, name, createdOn));
+            }
+        }
+        return ret;
+    }
+
+    /**
      * Inserts and stores a new playlist into the database table called
      * 'Playlist'.
      *

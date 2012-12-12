@@ -50,7 +50,69 @@ public class Menu_1_1_edit extends Menu {
                 SongManager sm = new SongManager();
                 Song song = sm.getSongById(id);
                 
-                song.setTitle(Menu.getInput("New artist ID"));
+                song.setArtistId(Menu.getInputInt("New artist ID"));
+                sm.updateSong(song);
+                
+                Table.fromSong(song);
+                
+                Menu.waitForEnter();
+                return new Menu_1_1();
+            }
+        }));
+
+        items.add(new MenuItem("Category", "c", new Callable<Menu_1_1>() {
+            @Override
+            public Menu_1_1 call() throws SQLException, IOException, Exception {
+                int id = Menu.getInputInt("Song ID to edit");
+                if(id <= 0){
+                    return new Menu_1_1();
+                }
+                
+                SongManager sm = new SongManager();
+                Song song = sm.getSongById(id);
+                
+                song.setCategoryId(Menu.getInputInt("New category ID"));
+                sm.updateSong(song);
+                
+                Table.fromSong(song);
+                
+                Menu.waitForEnter();
+                return new Menu_1_1();
+            }
+        }));
+
+        items.add(new MenuItem("Filename", "f", new Callable<Menu_1_1>() {
+            @Override
+            public Menu_1_1 call() throws SQLException, IOException, Exception {
+                int id = Menu.getInputInt("Song ID to edit");
+                if(id <= 0){
+                    return new Menu_1_1();
+                }
+                
+                SongManager sm = new SongManager();
+                Song song = sm.getSongById(id);
+                
+                song.setFileName(Menu.getInput("New filename"));
+                sm.updateSong(song);
+                
+                Table.fromSong(song);
+                Menu.waitForEnter();
+                return new Menu_1_1();
+            }
+        }));
+
+        items.add(new MenuItem("Duration", "d", new Callable<Menu_1_1>() {
+            @Override
+            public Menu_1_1 call() throws SQLException, IOException, Exception {
+                int id = Menu.getInputInt("Song ID to edit");
+                if(id <= 0){
+                    return new Menu_1_1();
+                }
+                
+                SongManager sm = new SongManager();
+                Song song = sm.getSongById(id);
+                
+                song.setCategoryId(Menu.getInputInt("New duration"));
                 sm.updateSong(song);
                 
                 Table.fromSong(song);
