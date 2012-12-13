@@ -5,11 +5,25 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.Callable;
 
-public class Menu {
+/**
+ *
+ * This Class is the parent of all the Menu objects.
+ *
+ * @author Daniel
+ */
+public abstract class Menu {
 
     private ArrayList<MenuItem> items;
     private String parent;
 
+    /**
+     * constructor It gets the MenuItems, adds a back option to it and calls the
+     * drawer and listener methods.
+     *
+     * @param items MenuItem-s to show
+     * @param parent If it's a submenu, we want to write the parent
+     * @throws Exception
+     */
     public Menu(ArrayList<MenuItem> items, String parent) throws Exception {
         //adding back
         ArrayList<MenuItem> list = new ArrayList<>();
@@ -32,15 +46,13 @@ public class Menu {
         list.addAll(items);
         this.items = list;
         this.parent = parent;
-        start();
+        draw();
         listen();
     }
 
-    private void start() {
-        //newLine(5);
-        draw();
-    }
-
+    /**
+     * Draws the header of the menu
+     */
     private void draw() {
         int lineLength = 2;
         for (MenuItem i : items) {
@@ -74,6 +86,12 @@ public class Menu {
         System.out.println("┘");
     }
 
+    /**
+     * Listen to user inputs and calls the submenu's call() method if the user
+     * entered a good command.
+     *
+     * @throws Exception
+     */
     private void listen() throws Exception {
         Scanner in = new Scanner(System.in);
         String userInput;
@@ -95,67 +113,99 @@ public class Menu {
         }
     }
 
+    /**
+     * Returns the length of a formatted MenuItem.
+     *
+     * @param item item to format and get the length
+     * @return
+     */
     private int lengthOfHeader(MenuItem item) {
         String s = formatMenuItem(item);
         return s.length();
     }
-    
+
+    /**
+     * Returns the formatted version of a MenuItem.
+     *
+     * @param item item to format
+     * @return
+     */
     private String formatMenuItem(MenuItem item) {
         return " " + item.getText() + " (" + item.getTrigger() + ") ";
     }
-    
-    public static String getInput(String label){
+
+    /**
+     * Waits for the user to input a String
+     *
+     * @param label Message to the user before the he/she inputs something.
+     * @return Returns what the user wrote.
+     */
+    public static String getInput(String label) {
         Scanner in = new Scanner(System.in);
         String userInput;
         System.out.print(" │ " + label + " > ");
-        try{
+        try {
             userInput = in.nextLine();
-        }
-        catch(Error e){
+        } catch (Error e) {
             throw new Error(e);
         }
         return userInput;
     }
-    
-    public static int getInputInt(String label){
+
+    /**
+     * Waits for the user to input an int
+     *
+     * @param label Message to the user before the he/she inputs something.
+     * @return Returns what the user wrote.
+     */
+    public static int getInputInt(String label) {
         Scanner in = new Scanner(System.in);
         String userInput;
         int ret = 0;
         System.out.print(" │ " + label + " (Undo: 0) > ");
-        try{
+        try {
             userInput = in.nextLine();
-        }
-        catch(Error e){
+        } catch (Error e) {
             throw e;
         }
-        
-        if(userInput.equals("") || userInput.isEmpty()){
+
+        if (userInput.equals("") || userInput.isEmpty()) {
             return 0;
         }
-        
-        try{
+
+        try {
             ret = Integer.parseInt(userInput);
-        }
-        catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             throw e;
         }
         return ret;
     }
-    
-    public static void waitForEnter(){
+
+    /**
+     * We call this method if we want to wait for an Enter from the user
+     */
+    public static void waitForEnter() {
         Scanner in = new Scanner(System.in);
         System.out.print(" │");
         in.nextLine();
     }
-    
-    public static void Message(String m){
-        System.out.println(" │ " + m + "...");
+
+    /**
+     * It writes out what it gets in the parameter.
+     *
+     * @param message message to write
+     */
+    public static void Message(String message) {
+        System.out.println(" │ " + message + "...");
     }
-    
-    public static void waitWithMessage(String m){
-        Message(m + ", press return to continue");
+
+    /**
+     * Calls the Message method with the parameter and then waits for an Enter.
+     *
+     * @param message
+     */
+    public static void waitWithMessage(String message) {
+        Message(message + ", press return to continue");
         waitForEnter();
     }
-    
-    
 }

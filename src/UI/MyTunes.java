@@ -5,6 +5,7 @@ import UI.MenuStructure.Menu_main;
 
 public class MyTunes {
     public static MusicPlayer musicPlayer;
+    public static Thread playerThread;
     
     public static void main(String[] args) throws Exception {
         musicPlayer = new MusicPlayer();

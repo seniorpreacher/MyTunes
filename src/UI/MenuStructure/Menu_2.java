@@ -41,8 +41,8 @@ public class Menu_2 extends Menu {
                 if (songs.size() == 1) {
                     MyTunes.musicPlayer.setSong(songs.get(0));
 
-                    Thread t = new Thread(MyTunes.musicPlayer);
-                    t.start();
+                    MyTunes.playerThread = new Thread(MyTunes.musicPlayer);
+                    MyTunes.playerThread.start();
                 }
                 return new Menu_2();
             }
@@ -71,8 +71,8 @@ public class Menu_2 extends Menu {
                 if (playlists.size() == 1) {
                     MyTunes.musicPlayer.setSongs(playlists.get(0).getSongs());
 
-                    Thread t = new Thread(MyTunes.musicPlayer);
-                    t.start();
+                    MyTunes.playerThread = new Thread(MyTunes.musicPlayer);
+                    MyTunes.playerThread.start();
                 }
                 return new Menu_2();
             }

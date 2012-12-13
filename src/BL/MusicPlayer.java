@@ -14,13 +14,16 @@ public class MusicPlayer implements Runnable {
 
     private Player player;
     private Song current;
-    private int pausePosition = 0;
+    private Boolean isPaused;
     private ArrayList<Song> currentPlayList;
 
     public void stop() {
         if (player != null) {
+            if (isPaused) {
+                MyTunes.playerThread.resume();
+            }
             player.close();
-            pausePosition = 0;
+            MyTunes.playerThread.stop();
             current = null;
         }
     }
@@ -46,31 +49,41 @@ public class MusicPlayer implements Runnable {
 
     public void pause() {
         if (player != null) {
-            player.close();
+            MyTunes.playerThread.suspend();
+            isPaused = true;
         }
     }
 
     public void resume() throws FileNotFoundException, JavaLayerException {
-        if (current != null) {
-            MyTunes.musicPlayer.setSong(current);
+        if (isPaused) {
+            MyTunes.playerThread.resume();
+            isPaused = false;
         }
     }
 
     public Song getPlayed() {
+        if (isPaused) {
+            MyTunes.playerThread.resume();
+            Song ret = isPlaying() ? current : null;
+            MyTunes.playerThread.suspend();
+            return ret;
+        }
         return isPlaying() ? current : null;
     }
 
     public boolean isPlaying() {
-        return !player.isComplete();
+        return player == null ? false : !player.isComplete();
     }
 
     public void setSong(Song song) throws FileNotFoundException, JavaLayerException {
         ArrayList<Song> songs = new ArrayList<>();
         songs.add(song);
         currentPlayList = songs;
+        isPaused = false;
     }
 
     public void setSongs(ArrayList<Song> songs) throws FileNotFoundException, JavaLayerException {
         currentPlayList = songs;
+        isPaused = false;
     }
 }

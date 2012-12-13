@@ -2,6 +2,10 @@ package UI;
 
 import java.util.concurrent.Callable;
 
+/**
+ * Sub Class to handle Menu's Items
+ * @author Dani
+ */
 public class MenuItem {
 
     private String text;
