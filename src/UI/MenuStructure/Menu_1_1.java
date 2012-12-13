@@ -65,6 +65,7 @@ public class Menu_1_1 extends Menu {
                     System.out.print("(" + Integer.toString(a.getId()) + ")" + a.getName() + ", ");
 
                 }
+                System.out.print("\n");
                 int artistId = Menu.getInputInt("Artist ID");
                 if (artistId < 1) {
                     return new Menu_1_1();
@@ -76,6 +77,7 @@ public class Menu_1_1 extends Menu {
                     System.out.print("(" + Integer.toString(c.getId()) + ")" + c.getName() + ", ");
 
                 }
+                System.out.print("\n");
                 int categoryId = Menu.getInputInt("Category ID");
                 if (categoryId < 1) {
                     return new Menu_1_1();
