@@ -40,6 +40,7 @@ public class MusicPlayer implements Runnable {
                 } catch (FileNotFoundException e) {
                     Logger.getLogger(MusicPlayer.class.getName()).log(Level.SEVERE, null, e);
                 }
+                //pausePosition = 0;
             }
         } catch (JavaLayerException ex) {
             Logger.getLogger(MusicPlayer.class.getName()).log(Level.SEVERE, null, ex);

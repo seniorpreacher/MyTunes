@@ -62,9 +62,19 @@ public class SongManager {
         ArrayList<Boolean> checkedList = new ArrayList<>();
         ArrayList<Song> allSongs = DBM.getAllSongs();
         for (Song son : allSongs) {
-            File song = new File(DBM.PATH + son.getFileName());
+            File song = new File("songs/" + son.getFileName());
             checkedList.add(song.exists());
         }
         return checkedList;
+    }
+    
+    public ArrayList<Song> checkedSongs() throws SQLException {
+        ArrayList<Song> songs = getAllSongs();
+        ArrayList<Boolean> checks = checkAllSongs();
+        
+        for (int i = 0; i < songs.size(); i++) {
+            songs.get(i).setIsExists(checks.get(i));
+        }
+        return songs;
     }
 }
