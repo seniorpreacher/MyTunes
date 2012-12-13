@@ -17,6 +17,7 @@ public class Song {
     private int duration;
     private String artistName;
     private String categoryName;
+    private Boolean isExists;
 
     public Song(String title, int artistId, int categoryId, String 
             fileName, int duration) {
@@ -119,5 +120,19 @@ public class Song {
      */
     public void setDuration(int duration) {
         this.duration = duration;
+    }
+
+    /**
+     * @return the isExists
+     */
+    public Boolean getIsExists() {
+        return isExists;
+    }
+
+    /**
+     * @param isExists the isExists to set
+     */
+    public void setIsExists(Boolean isExists) {
+        this.isExists = isExists;
     }
 }

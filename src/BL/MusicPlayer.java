@@ -1,14 +1,12 @@
 package BL;
 
 import BE.Song;
-import UI.Menu;
 import UI.MyTunes;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javazoom.jl.decoder.Control;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 
@@ -35,12 +33,11 @@ public class MusicPlayer implements Runnable {
                 try {
                     FileInputStream fis = new FileInputStream("songs/" + song.getFileName());
                     player = new Player(fis);
-                    while (player.play(pausePosition++)) {
-                        //Menu.Message(Integer.toString(pausePosition));
-                    }
+                    player.play();
                 } catch (FileNotFoundException e) {
                     Logger.getLogger(MusicPlayer.class.getName()).log(Level.SEVERE, null, e);
                 }
+                //pausePosition = 0;
             }
         } catch (JavaLayerException ex) {
             Logger.getLogger(MusicPlayer.class.getName()).log(Level.SEVERE, null, ex);
@@ -49,7 +46,6 @@ public class MusicPlayer implements Runnable {
 
     public void pause() {
         if (player != null) {
-            //pausePosition = player.getPosition();
             player.close();
         }
     }

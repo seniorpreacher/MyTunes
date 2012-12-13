@@ -1,6 +1,5 @@
 package UI;
 
-import BL.MusicPlayer;
 import UI.MenuStructure.Menu_main;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -13,9 +12,10 @@ public class Menu {
 
     public Menu(ArrayList<MenuItem> items, String parent) throws Exception {
         //adding back
-        ArrayList<MenuItem> list = new ArrayList<MenuItem>();
+        ArrayList<MenuItem> list = new ArrayList<>();
         if (parent == null) {
             list.add(new MenuItem("Quit", "q", new Callable<Menu>() {
+                @Override
                 public Menu call() throws Exception {
                     return null;
                 }
@@ -23,6 +23,7 @@ public class Menu {
 
         } else {
             list.add(new MenuItem("<- Back", "b", new Callable<Menu>() {
+                @Override
                 public Menu call() throws Exception {
                     return new Menu_main();
                 }
