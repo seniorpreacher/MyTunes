@@ -1,14 +1,12 @@
 package BL;
 
 import BE.Song;
-import UI.Menu;
 import UI.MyTunes;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javazoom.jl.decoder.Control;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 
@@ -16,13 +14,16 @@ public class MusicPlayer implements Runnable {
 
     private Player player;
     private Song current;
-    private int pausePosition = 0;
+    private Boolean isPaused;
     private ArrayList<Song> currentPlayList;
 
     public void stop() {
         if (player != null) {
+            if (isPaused) {
+                MyTunes.playerThread.resume();
+            }
             player.close();
-            pausePosition = 0;
+            MyTunes.playerThread.stop();
             current = null;
         }
     }
@@ -35,9 +36,7 @@ public class MusicPlayer implements Runnable {
                 try {
                     FileInputStream fis = new FileInputStream("songs/" + song.getFileName());
                     player = new Player(fis);
-                    while (player.play(pausePosition++)) {
-                        //Menu.Message(Integer.toString(pausePosition));
-                    }
+                    player.play();
                 } catch (FileNotFoundException e) {
                     Logger.getLogger(MusicPlayer.class.getName()).log(Level.SEVERE, null, e);
                 }
@@ -49,32 +48,41 @@ public class MusicPlayer implements Runnable {
 
     public void pause() {
         if (player != null) {
-            //pausePosition = player.getPosition();
-            player.close();
+            MyTunes.playerThread.suspend();
+            isPaused = true;
         }
     }
 
     public void resume() throws FileNotFoundException, JavaLayerException {
-        if (current != null) {
-            MyTunes.musicPlayer.setSong(current);
+        if (isPaused) {
+            MyTunes.playerThread.resume();
+            isPaused = false;
         }
     }
 
     public Song getPlayed() {
+        if (isPaused) {
+            MyTunes.playerThread.resume();
+            Song ret = isPlaying() ? current : null;
+            MyTunes.playerThread.suspend();
+            return ret;
+        }
         return isPlaying() ? current : null;
     }
 
     public boolean isPlaying() {
-        return !player.isComplete();
+        return player == null ? false : !player.isComplete();
     }
 
     public void setSong(Song song) throws FileNotFoundException, JavaLayerException {
         ArrayList<Song> songs = new ArrayList<>();
         songs.add(song);
         currentPlayList = songs;
+        isPaused = false;
     }
 
     public void setSongs(ArrayList<Song> songs) throws FileNotFoundException, JavaLayerException {
         currentPlayList = songs;
+        isPaused = false;
     }
 }
