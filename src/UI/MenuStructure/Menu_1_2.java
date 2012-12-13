@@ -4,9 +4,9 @@ import BE.Playlist;
 import BE.Song;
 import BL.PlaylistManager;
 import BL.SongManager;
-import UI.Table;
 import UI.Menu;
 import UI.MenuItem;
+import UI.Table;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,23 +23,31 @@ public class Menu_1_2 extends Menu {
 
         items.add(new MenuItem("List All", "l", new Callable<Menu_1_2>() {
             @Override
-            public Menu_1_2 call() throws SQLException, IOException, Exception {
+            public Menu_1_2 call() throws Exception {
+                try {
                 PlaylistManager pm = new PlaylistManager();
                 ArrayList<Playlist> data = pm.getAllPlaylists();
                 
                 Table.fromPlaylist(data);
                 Menu.waitForEnter();
+                } catch (SQLException | IOException e) {
+                    System.out.println(e.getMessage());
+                }
                 return new Menu_1_2();
             }
         }));
         items.add(new MenuItem("View songs", "v", new Callable<Menu_1_2>() {
             @Override
-            public Menu_1_2 call() throws SQLException, IOException, Exception {
+            public Menu_1_2 call() throws Exception {
+                try {
                 SongManager sm = new SongManager();
                 ArrayList<Song> data = sm.getSongsFromPlaylist(Menu.getInputInt("Playlist ID"));
                 
                 Table.fromSong(data);
                 Menu.waitForEnter();
+                } catch (SQLException | IOException e) {
+                    System.out.println(e.getMessage());
+                }
                 return new Menu_1_2();
             }
         }));

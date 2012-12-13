@@ -10,21 +10,34 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 /**
+ * Playlist database manager class.
+ *
+ * It contains all the methods that deals with the Playlist table inside the
+ * database.
  *
  * @author Anthony
  */
 public class PlaylistDBManager extends DBManager {
 
+    /**
+     * The constructor for the Playlist database manager class.
+     *
+     * @throws SQLException Exception, because it deals with the database.
+     * @throws IOException Exception, because the database manager uses a
+     * configuration file to load it's settings.
+     */
     public PlaylistDBManager() throws SQLException, IOException {
         super();
     }
 
     /**
+     * Gets all the Playlists out of the database table called Playlist.
+     *
      * Makes a query to the database and constructs an ArrayList full of
      * Playlist instances with the information that it got from the database.
      *
      * @return an ArrayList with all the playlists from the database.
-     * @throws SQLException
+     * @throws SQLException Exception, because it deals with the database.
      */
     public ArrayList<Playlist> getAllPlaylists() throws SQLException {
         ArrayList<Playlist> plaList = new ArrayList<>();
@@ -45,12 +58,15 @@ public class PlaylistDBManager extends DBManager {
     }
 
     /**
-     * Takes in a ID number and makes a query to the database. Then constructs a
-     * Playlist instance based on the query results.
+     * Gets a specific Playlist entity out of the database table called
+     * Playlist.
+     *
+     * Takes in a ID number and makes a query to the database, then it
+     * constructs a Playlist instance based on the query results.
      *
      * @param iden ID number of the specific Playlist you're looking for.
      * @return a specific Playlist instance.
-     * @throws SQLException
+     * @throws SQLException Exception, because it deals with the database.
      */
     public Playlist getPlaylistByID(int iden) throws SQLException {
         Playlist pla = null;
@@ -71,18 +87,20 @@ public class PlaylistDBManager extends DBManager {
     }
 
     /**
-     * Takes in a String and makes a query to the database. Then constructs a
+     * Searches the Playlist table for the specified name.
+     *
+     * Takes in a String and makes a query to the database, then it constructs a
      * Playlist instance based on the query results.
      *
-     * @param search in playlist names.
+     * @param search A keyword that will be used for searching.
      * @return a specific Playlist instance.
-     * @throws SQLException
+     * @throws SQLException Exception, because it deals with the database.
      */
     public ArrayList<Playlist> getPlaylist(String search) throws SQLException {
         ArrayList<Playlist> ret = new ArrayList<>();
         try (Connection conn = dataSource.getConnection()) {
             PreparedStatement plaQue = conn.prepareStatement("SELECT * FROM Playlist WHERE Name LIKE ?");
-            plaQue.setString(1, "%"+search+"%");
+            plaQue.setString(1, "%" + search + "%");
             ResultSet plaRes = plaQue.executeQuery();
 
             while (plaRes.next()) {
@@ -91,7 +109,7 @@ public class PlaylistDBManager extends DBManager {
                 Timestamp createdOnDB = plaRes.getTimestamp("Created");
                 java.util.Date createdOnL = createdOnDB;
                 long createdOn = createdOnL.getTime();
-                
+
                 ret.add(new Playlist(id, name, createdOn));
             }
         }
@@ -103,7 +121,7 @@ public class PlaylistDBManager extends DBManager {
      * 'Playlist'.
      *
      * @param pla a playlist entity that's passed to the method by the UI.
-     * @throws SQLException
+     * @throws SQLException Exception, because it deals with the database.
      */
     public void insertPlaylist(Playlist pla) throws SQLException {
         Connection conn = dataSource.getConnection();
@@ -120,7 +138,7 @@ public class PlaylistDBManager extends DBManager {
      * Removes the playlist we specify by ID from the table called 'Playlist'.
      *
      * @param iden the ID of the playlist we want to remove.
-     * @throws SQLException
+     * @throws SQLException Exception, because it deals with the database.
      */
     public void removePlaylistByID(int iden) throws SQLException {
         Connection conn = dataSource.getConnection();
@@ -133,9 +151,16 @@ public class PlaylistDBManager extends DBManager {
     }
 
     /**
+     * Insert a specific song into a specific playlist.
      *
-     * @param playlistIden
-     * @param songIden
+     * Takes the two parameters and makes an INSERT query to the PlaylistSong
+     * table in the database.
+     *
+     * @param playlistIden the ID of the playlist where we want to insert a
+     * song.
+     * @param songIden the ID of the song which we want to insert into a
+     * playlist.
+     * @throws SQLException Exception, because it deals with the database.
      */
     public void insertSongToPlaylist(int playlistIden, int songIden) throws SQLException {
         Connection conn = dataSource.getConnection();
@@ -150,9 +175,16 @@ public class PlaylistDBManager extends DBManager {
     }
 
     /**
+     * Remove a specific song from a specific playlist.
      *
-     * @param playlistIden
-     * @param songIden
+     * Takes the two parameters and runs a DELETE query on the PlaylistSong
+     * table deleting the corresponding line.
+     *
+     * @param playlistIden the ID of the playlist from which we want to remove a
+     * song.
+     * @param songIden the ID of the song we want to remove from a specific
+     * playlist.
+     * @throws SQLException Exception, because it deals with the database.
      */
     public void removeSongFromPlaylist(int playlistIden, int songIden) throws SQLException {
         Connection conn = dataSource.getConnection();
@@ -166,12 +198,20 @@ public class PlaylistDBManager extends DBManager {
     }
 
     /**
-     * 
-     * 
+     * Moves a song on a playlist up or down a position.
+     *
+     * With the selected parameters first it selects and stores the current
+     * position of that song. After that it updates the sequence number of the
+     * song which we need to replace in order to move our song up or down and
+     * sets it to 0. Then it sets our song to the desired position and moving
+     * back the song we set earlier to 0 to the initial position of our song.
+     *
      * @param playlistIden the ID of our selected playlist.
      * @param songIden the ID of our selected song.
      * @param newPos -1 if we want to move a song higher in a playlist and +1 if
-     * we want to move it down.
+     * we want to move it down. We take care in the UI so the method only gets
+     * these two options.
+     * @throws SQLException Exception, because it deals with the database.
      */
     public void moveSong(int playlistIden, int songIden, int newPos) throws SQLException {
         Connection conn = dataSource.getConnection();
@@ -198,12 +238,22 @@ public class PlaylistDBManager extends DBManager {
     }
 
     /**
-     * 
-     * @param playlistIden
-     * @param songIden
-     * @param newPos
-     * @return
-     * @throws SQLException 
+     * Gets the current, maximum and minimum sequence number inside a desired
+     * playlist of a song.
+     *
+     * With the given parameters makes three different queries and with a
+     * unified result it sets the integer array with the sequence numbers. This
+     * array is used by the Business Logic Layer to check if it possible or not
+     * to move the song.
+     *
+     * @param playlistIden the ID of our selected playlist.
+     * @param songIden the ID of our selected song.
+     * @param newPos -1 if we want to move a song higher in a playlist and +1 if
+     * we want to move it down. We take care in the UI so the method only gets
+     * these two options.
+     * @return res An integer array which contains the current, maximum and
+     * minimum sequence number of our selected song in the selected playlist.
+     * @throws SQLException Exception, because it deals with the database.
      */
     public int[] getSeqAndMaxSeq(int playlistIden, int songIden, int newPos) throws SQLException {
         Connection conn = dataSource.getConnection();

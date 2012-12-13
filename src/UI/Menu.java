@@ -17,7 +17,7 @@ public abstract class Menu {
     private String parent;
 
     /**
-     * constructor It gets the MenuItems, adds a back option to it and calls the
+     * Constructor It gets the MenuItems, adds a back option to it and calls the
      * drawer and listener methods.
      *
      * @param items MenuItem-s to show

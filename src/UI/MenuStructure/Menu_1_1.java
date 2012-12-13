@@ -26,12 +26,18 @@ public class Menu_1_1 extends Menu {
 
         items.add(new MenuItem("List All", "l", new Callable<Menu_1_1>() {
             @Override
-            public Menu_1_1 call() throws SQLException, IOException, Exception {
+            public Menu_1_1 call() throws Exception {
+                try {
                 SongManager sm = new SongManager();
                 ArrayList<Song> data = sm.getAllSongs();
 
                 Table.fromSong(data);
                 Menu.waitForEnter();
+                } catch(SQLException e) {
+                    System.out.println(e.getMessage());
+                } catch (IOException ex) {
+                    System.out.println(ex.getMessage());
+                }
                 return new Menu_1_1();
             }
         }));
@@ -50,7 +56,7 @@ public class Menu_1_1 extends Menu {
 
         items.add(new MenuItem("Add", "a", new Callable<Menu_1_1>() {
             @Override
-            public Menu_1_1 call() throws Exception {
+            public Menu_1_1 call() throws Exception{
                 SongManager sm = new SongManager();
 
                 String title = Menu.getInput("Title");
@@ -110,7 +116,7 @@ public class Menu_1_1 extends Menu {
 
         items.add(new MenuItem("Remove", "r", new Callable<Menu_1_1>() {
             @Override
-            public Menu_1_1 call() throws Exception {
+            public Menu_1_1 call() throws Exception{
                 SongManager sm = new SongManager();
                 int id = Menu.getInputInt("Song ID to remove");
                 if (id > 0) {
@@ -123,7 +129,7 @@ public class Menu_1_1 extends Menu {
 
         items.add(new MenuItem("Add song to playlist", "p", new Callable<Menu_1_1>() {
             @Override
-            public Menu_1_1 call() throws Exception {
+            public Menu_1_1 call() throws Exception{
                 PlaylistManager pm = new PlaylistManager();
                 int songId = Menu.getInputInt("Song ID to add");
                 int playlistId = Menu.getInputInt("Playlist ID");
@@ -137,7 +143,7 @@ public class Menu_1_1 extends Menu {
 
         items.add(new MenuItem("Check all", "c", new Callable<Menu_1_1>() {
             @Override
-            public Menu_1_1 call() throws Exception {
+            public Menu_1_1 call() throws Exception{
                 SongManager sm = new SongManager();
                 ArrayList<Song> data;
                 data = sm.checkedSongs();

@@ -2,7 +2,6 @@ package UI.MenuStructure;
 
 import BE.Playlist;
 import BE.Song;
-import BL.MusicPlayer;
 import BL.PlaylistManager;
 import BL.SongManager;
 import UI.Menu;

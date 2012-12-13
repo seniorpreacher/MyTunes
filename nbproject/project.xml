@@ -13,6 +13,8 @@
         </data>
         <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
             <word>int</word>
+            <word>playlist</word>
+            <word>playlists</word>
             <word>submenu</word>
             <word>Submethod</word>
         </spellchecker-wordlist>

@@ -2,9 +2,9 @@ package UI.MenuStructure;
 
 import BE.Song;
 import BL.SongManager;
-import UI.Table;
 import UI.Menu;
 import UI.MenuItem;
+import UI.Table;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -21,7 +21,8 @@ public class Menu_1_1_edit extends Menu {
 
         items.add(new MenuItem("Title", "t", new Callable<Menu_1_1>() {
             @Override
-            public Menu_1_1 call() throws SQLException, IOException, Exception {
+            public Menu_1_1 call() throws Exception{
+                try {
                 int id = Menu.getInputInt("Song ID to edit");
                 if(id <= 0){
                     return new Menu_1_1();
@@ -35,13 +36,17 @@ public class Menu_1_1_edit extends Menu {
                 
                 Table.fromSong(song);
                 Menu.waitForEnter();
+                } catch (SQLException | IOException e) {
+                    System.out.println(e.getMessage());
+                }
                 return new Menu_1_1();
             }
         }));
 
         items.add(new MenuItem("Artist", "a", new Callable<Menu_1_1>() {
             @Override
-            public Menu_1_1 call() throws SQLException, IOException, Exception {
+            public Menu_1_1 call() throws Exception{
+                try {
                 int id = Menu.getInputInt("Song ID to edit");
                 if(id <= 0){
                     return new Menu_1_1();
@@ -56,13 +61,17 @@ public class Menu_1_1_edit extends Menu {
                 Table.fromSong(song);
                 
                 Menu.waitForEnter();
+                } catch (SQLException | IOException e) {
+                    System.out.println(e.getMessage());
+                }
                 return new Menu_1_1();
             }
         }));
 
         items.add(new MenuItem("Category", "c", new Callable<Menu_1_1>() {
             @Override
-            public Menu_1_1 call() throws SQLException, IOException, Exception {
+            public Menu_1_1 call() throws Exception {
+                try {
                 int id = Menu.getInputInt("Song ID to edit");
                 if(id <= 0){
                     return new Menu_1_1();
@@ -77,13 +86,17 @@ public class Menu_1_1_edit extends Menu {
                 Table.fromSong(song);
                 
                 Menu.waitForEnter();
+                } catch (SQLException | IOException e) {
+                    System.out.println(e.getMessage());
+                }
                 return new Menu_1_1();
             }
         }));
 
         items.add(new MenuItem("Filename", "f", new Callable<Menu_1_1>() {
             @Override
-            public Menu_1_1 call() throws SQLException, IOException, Exception {
+            public Menu_1_1 call() throws Exception {
+                try {
                 int id = Menu.getInputInt("Song ID to edit");
                 if(id <= 0){
                     return new Menu_1_1();
@@ -97,13 +110,17 @@ public class Menu_1_1_edit extends Menu {
                 
                 Table.fromSong(song);
                 Menu.waitForEnter();
+                } catch (SQLException | IOException e) {
+                    System.out.println(e.getMessage());
+                }
                 return new Menu_1_1();
             }
         }));
 
         items.add(new MenuItem("Duration", "d", new Callable<Menu_1_1>() {
             @Override
-            public Menu_1_1 call() throws SQLException, IOException, Exception {
+            public Menu_1_1 call() throws Exception {
+                try {
                 int id = Menu.getInputInt("Song ID to edit");
                 if(id <= 0){
                     return new Menu_1_1();
@@ -118,6 +135,9 @@ public class Menu_1_1_edit extends Menu {
                 Table.fromSong(song);
                 
                 Menu.waitForEnter();
+                } catch ( SQLException | IOException e) {
+                    System.out.println(e.getMessage());
+                }
                 return new Menu_1_1();
             }
         }));
