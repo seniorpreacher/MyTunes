@@ -31,10 +31,10 @@ public class Menu_2 extends Menu {
                     title = Menu.getInput("Song title");
                     songs = sm.searchSongs(title);
                     if (songs.size() < 1) {
-                        Menu.Message("No song to this search");
+                        Menu.message("No song to this search");
                     }
                     if (songs.size() > 1) {
-                        Menu.Message("I found " + songs.size() + " songs to this search, that's too many to play.");
+                        Menu.message("I found " + songs.size() + " songs to this search, that's too many to play.");
                     }
                 } while (!(!title.equals("") && !title.isEmpty() && songs.size() == 1));
                 if (songs.size() == 1) {
@@ -61,10 +61,10 @@ public class Menu_2 extends Menu {
                     title = Menu.getInput("Playlist name");
                     playlists = pm.getPlaylist(title);
                     if (playlists.size() < 1) {
-                        Menu.Message("No playlist found");
+                        Menu.message("No playlist found");
                     }
                     if (playlists.size() > 1) {
-                        Menu.Message("I found " + playlists.size() + " songs to this search, that's too many to play.");
+                        Menu.message("I found " + playlists.size() + " songs to this search, that's too many to play.");
                     }
                 } while (!(!title.equals("") && !title.isEmpty() && playlists.size() == 1));
                 if (playlists.size() == 1) {
@@ -109,10 +109,10 @@ public class Menu_2 extends Menu {
             public Menu_2 call() throws Exception {
                 Song current = MyTunes.musicPlayer.getPlayed();
                 if (current != null) {
-                    Menu.Message("Title: " + current.getTitle());
-                    Menu.Message("Artist: " + current.getArtistName());
+                    Menu.message("Title: " + current.getTitle());
+                    Menu.message("Artist: " + current.getArtistName());
                 } else {
-                    Menu.Message("Currently we're not playing any songs");
+                    Menu.message("Currently we're not playing any songs");
                 }
 
                 return new Menu_2();

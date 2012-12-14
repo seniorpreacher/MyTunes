@@ -99,29 +99,6 @@ public class ArtistDBManager extends DBManager {
     }
 
     /**
-     * Gets the last entry from the table 'Artist' and makes an entity out of
-     * it.
-     *
-     * @return a new Artist entity based on the last entry in the table.
-     * @throws SQLException Exception, because it deals with the database.
-     */
-    public Artist getLastArtist() throws SQLException {
-        Artist art = null;
-        Connection conn = dataSource.getConnection();
-
-        PreparedStatement artQue = conn.prepareStatement("SELECT * FROM Artist WHERE ID = MAX(ID)");
-        ResultSet artRes = artQue.executeQuery();
-
-        artRes.next();
-        int id = artRes.getInt("ID");
-        String name = artRes.getString("Name");
-        art = new Artist(id, name);
-
-        conn.close();
-        return art;
-    }
-
-    /**
      * Removes the artist we specify by ID from the table called 'Artist'.
      *
      * @param iden the ID of the artist we want to remove.

@@ -140,6 +140,20 @@ public class Menu_1_1 extends Menu {
                 return new Menu_1_1();
             }
         }));
+        
+        items.add(new MenuItem("Remove song from playlist", "q", new Callable<Menu_1_1>() {
+            @Override
+            public Menu_1_1 call() throws Exception{
+                PlaylistManager pm = new PlaylistManager();
+                int songId = Menu.getInputInt("Song ID to remove");
+                int playlistId = Menu.getInputInt("Playlist ID");
+                if (songId > 0 && playlistId > 0) {
+                    pm.removeSongFromPlaylist(playlistId, songId);
+                    Menu.waitWithMessage("Song removed from playlist");
+                }
+                return new Menu_1_1();
+            }
+        }));
 
         items.add(new MenuItem("Check all", "c", new Callable<Menu_1_1>() {
             @Override

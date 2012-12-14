@@ -195,7 +195,7 @@ public abstract class Menu {
      *
      * @param message message to write
      */
-    public static void Message(String message) {
+    public static void message(String message) {
         System.out.println(" │ " + message + "...");
     }
 
@@ -205,7 +205,7 @@ public abstract class Menu {
      * @param message
      */
     public static void waitWithMessage(String message) {
-        Message(message + ", press return to continue");
+        message(message + ", press return to continue");
         waitForEnter();
     }
 }

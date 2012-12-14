@@ -117,37 +117,6 @@ public class SongDBManager extends DBManager {
     }
 
     /**
-     * Get the last element inside the Song table with Artist and Category name.
-     *
-     * Gets the last entry from the table 'Artist' and makes an entity out of
-     * it.
-     *
-     * @return a new Artist entity based on the last entry in the table.
-     * @throws SQLException Exception, because it deals with the database.
-     */
-    public Song getLastSong() throws SQLException {
-        Song son = null;
-        Connection conn = dataSource.getConnection();
-
-        PreparedStatement sonQue = conn.prepareStatement("SELECT Song.*, Artist.Name as ArtistName, Category.Name as CategoryName FROM Song INNER JOIN Artist ON Artist.ID = Song.ArtistID INNER JOIN Category ON Category.ID = Song.CategoryID WHERE Song.ID = MAX(ID) AND Song.ArtistID = Artist.ID");
-        ResultSet sonRes = sonQue.executeQuery();
-
-        sonRes.next();
-        int id = sonRes.getInt("ID");
-        String title = sonRes.getString("Title");
-        int artistId = sonRes.getInt("ArtistID");
-        int categoryId = sonRes.getInt("CategoryID");
-        String fileName = sonRes.getString("FileName");
-        int duration = sonRes.getInt("Duration");
-        String artistName = sonRes.getString("ArtistName");
-        String categoryName = sonRes.getString("CategoryName");
-        son = new Song(id, title, artistId, categoryId, fileName, duration, artistName, categoryName);
-
-        conn.close();
-        return son;
-    }
-
-    /**
      * Removes the song we specify by ID from the table called 'Song'.
      *
      * @param iden the ID of the song we want to remove.
